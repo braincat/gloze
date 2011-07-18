@@ -25,7 +25,7 @@ CycL queries from the CycL directory can be entered in the page on the Query tab
 diff -u src/org/opencyc/xml/ImportOwl.java patch/org/opencyc/xml/ImportOwl.java > patch/ImportOwl.patch
 diff -u src/org/opencyc/xml/RDFTriples.java patch/org/opencyc/xml/RDFTriples.java > patch/RDFTriples.patch_
 }}}
- * *'scripts-mac' directory* _An additional script (run-cyc.sh) required to run OpenCyc on Mac OS X._
+ * *'scripts-mac' directory* _An additional script (run-cyc.sh) required to run !OpenCyc on Mac OS X._
 
  * *'sparql' directory* _Example SPARQL queries._
 
@@ -41,13 +41,13 @@ An additional 'tmp' directory is created during download, and installation creat
 
 The Cyc SPARQL adapter is provided with an ant build script (build.xml).
 
- * *ant download* _Downloads the required Jena (23.3 MB) and OpenCyc (220.8 MB) distributions to tmp directory._
+ * *ant download* _Downloads the required Jena (23.3 MB) and !OpenCyc (220.8 MB) distributions to tmp directory._
 
- * *ant install (ant re-install)* _Unpacks Jena and OpenCyc and applies patchesto OpenCyc bringing it up to date with Jena. It then merges the sparql adapter source with openCyc source in opencyc-2.0/src._
+ * *ant install (ant re-install)* _Unpacks Jena and !OpenCyc and applies patchesto !OpenCyc bringing it up to date with Jena. It then merges the sparql adapter source with openCyc source in opencyc-2.0/src._
 
  * *ant unpack* _Unzip jena and untar OpenCyc._
 
- * *ant compile (ant re-compile)* _Compile the Opencyc API and SPARQL adapter._
+ * *ant compile (ant re-compile)* _Compile the !Opencyc API and SPARQL adapter._
 
  * *ant uninstall* _Removes the build (build) and installed source (opencyc-2.0/src) but doesn't delete downloaded files._
 
