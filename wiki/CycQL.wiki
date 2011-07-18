@@ -9,9 +9,11 @@
 == Opencyc server ==
 
 run Cyc server:
+{{{
  $ ./scripts-mac/run-cyc.sh
 OR
  $ ./scripts/run-cyc.sh
+}}}
 
 Access the Cyc server at <http://localhost:3602/cgi-bin/cyccgi/cg?cb-start>
 CycL queries from the CycL directory can be entered in the page on the Query tab.
@@ -27,14 +29,11 @@ diff -u src/org/opencyc/xml/RDFTriples.java patch/org/opencyc/xml/RDFTriples.jav
 
  * *'sparql' directory* _Example SPARQL queries._
 
- * 'CycL' directory
-Example CycL queries
+ * *'CycL' directory* _Example CycL queries_
 
- * 'src' directory
-SPARQL adapter source.
+ * *'src' directory* _SPARQL adapter source._
 
- * 'doc' directory
-SPARQL adapter documentation
+ * *'doc' directory* _SPARQL adapter documentation._
 
 An additional 'tmp' directory is created during download, and installation creates the 'lib', 'server', 'scripts', and 'build' directories.
 
