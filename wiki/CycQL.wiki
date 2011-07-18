@@ -64,7 +64,7 @@ $ ant -Dquery="optional.rq" demo-run
 
 Create a planetary system, then query it to discover the planets and their moons. The sparql query is as follows. The default-graph is set to UniverseDataMt (overriding the default default-graph BaseKB). The optional clause selects any moons of the planet. SPARQL is able to match triples against Cyc binary predicates. The Cyc constants returned are represented as URIs. For notational convenience, Cyc terms are defined relative to the document base (the empty namespace preceding the colon). Where defined, an rdf URI is used in preference to the Cyc term. In the example below, many planets define an equivalent dbpedia URI.
 
-The following CycL assertions have been made in !'UniverseDataMt' (in demo-setup).
+The following CycL assertions have been made in '!UniverseDataMt' (in demo-setup).
 
 {{{
 		// Mercury
