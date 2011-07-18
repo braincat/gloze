@@ -9,7 +9,7 @@ CycQL is a Jena/ARQ based SPARQL adapter for !OpenCyc 2.0. It enables one of the
 
 == !OpenCyc server ==
 
-If you have not already done so, start the download and installation of Jena and !OpenCyc.
+If you have not already done so, start the download and installation of Jena and !OpenCyc. From within the CycQL directory execute the following tasks:
 
 {{{
 $ ant install
