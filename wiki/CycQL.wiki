@@ -150,7 +150,7 @@ $ ant -Dquery="negation.rq" demo-run
 
 This example filters the planets resulting from the previous example by eliminating Dwarf planets (i.e. Pluto). This demonstrates the use of negation using 'FILTER NOT EXISTS'.
 
-This makes use of the additional CycL assertion: '(#$isa !#$PlanetPluto !#$DwarfPlanet)' in '!CurrentWorldDataCollectorMt-!NonHomocentric'.
+This makes use of the additional CycL assertion: '(#$isa #$!PlanetPluto #$!DwarfPlanet)' in '!CurrentWorldDataCollectorMt-!NonHomocentric'.
 Note that this microtheory is a superset of '!UniverseDataMt', containing all the assertions of the latter in addition to the assertion above.
 It also makes use of additional assertions in '!UniverseDataMt' that define the orbital periods of the planets:
 
@@ -208,7 +208,7 @@ The results are as follows:
      [java] ---------------------------------------------------------------------------
 }}}
 
-Observe that the type of the orbital period, represented in Cyc as a Non_Atomic Term (NAT), has been preserved in the output as a custom datatype.
+Observe that the type of the orbital period, represented in Cyc as a !Non_Atomic Term (NAT), has been preserved in the output as a custom datatype.
 
 You can try evaluating the CycL above, directly on the Cyc server at <http://localhost:3602/cgi-bin/cyccgi/cg?cb-start>. 
 Select 'Query' (Enter the CycL query into the opencyc browser text box then click on 'Start as New').
