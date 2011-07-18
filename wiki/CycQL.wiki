@@ -20,7 +20,7 @@ CycL queries from the CycL directory can be entered in the page on the Query tab
 
 == File organization ==
 
- * *'patch' directory* _Patches required to use the opencyc API with jena 2.6.3. FYI Patches were generated thus:
+ * *'patch' directory* _Patches required to use the opencyc API with jena 2.6.3. FYI Patches were generated thus:_
 {{{
 diff -u src/org/opencyc/xml/ImportOwl.java patch/org/opencyc/xml/ImportOwl.java > patch/ImportOwl.patch
 diff -u src/org/opencyc/xml/RDFTriples.java patch/org/opencyc/xml/RDFTriples.java > patch/RDFTriples.patch_
@@ -41,27 +41,17 @@ An additional 'tmp' directory is created during download, and installation creat
 
 The Cyc SPARQL adapter is provided with an ant build script (build.xml).
 
- * ant download
-Downloads the required Jena (23.3 MB) and OpenCyc (220.8 MB) distributions to tmp directory.
+ * *ant download* _Downloads the required Jena (23.3 MB) and OpenCyc (220.8 MB) distributions to tmp directory._
 
- * ant install (ant re-install)
-Unpacks Jena and OpenCyc and applies patchesto OpenCyc bringing it up to date with Jena
-It then merges the sparql adapter source with openCyc source in opencyc-2.0/src.
+ * *ant install (ant re-install)* _Unpacks Jena and OpenCyc and applies patchesto OpenCyc bringing it up to date with Jena. It then merges the sparql adapter source with openCyc source in opencyc-2.0/src._
 
- * ant unpack
-Unzip jena and untar OpenCyc.
+ * *ant unpack* _Unzip jena and untar OpenCyc._
 
- * ant compile (ant re-compile)
-Compile the Opencyc API and SPARQL adapter.
+ * *ant compile (ant re-compile)* _Compile the Opencyc API and SPARQL adapter._
 
- * ant uninstall
-Removes the build (build) and installed source (opencyc-2.0/src) but doesn't delete downloaded files.
+ * *ant uninstall* _Removes the build (build) and installed source (opencyc-2.0/src) but doesn't delete downloaded files._
 
- * ant clean
-Deletes downloaded files (tmp), libraries (opencyc-2.0/lib), and merged source files (opencyc-2.0/src)
-
-Cyc SPARQL adapter source code in directory sparql.
-Demo query (planets.rq) in 'sparql' directory
+ * *ant clean* _Deletes downloaded files (tmp), libraries (opencyc-2.0/lib), and merged source files (opencyc-2.0/src)_
 
 == Demo ==
 
