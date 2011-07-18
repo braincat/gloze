@@ -70,8 +70,9 @@ $ ant demo-setup
 === Demo: optional.rq ===
 
 The demos can be executed in the same shell (and directory) as above.
-
+{{{
 $ ant -Dquery="optional.rq" demo-run
+}}}
 
 Create a planetary system, then query it to discover the planets and their moons. The sparql query is as follows. The default-graph is set to '!UniverseDataMt' (overriding the default default-graph BaseKB). The optional clause selects any moons of the planet. SPARQL is able to match triples against Cyc binary predicates. The Cyc constants returned are represented as URIs. For notational convenience, Cyc terms are defined relative to the document base (the empty namespace preceding the colon). Where defined, an rdf URI is used in preference to the Cyc term. In the example below, many planets define an equivalent dbpedia URI.
 
@@ -156,8 +157,9 @@ The results are as follows. Note Cyc constants defined relative to the base, e.g
 }}}
 
 === Demo: negation.rq ===
-
+{{{
 $ ant -Dquery="negation.rq" demo-run
+}}}
 
 This example filters the planets resulting from the previous example by eliminating Dwarf planets (i.e. Pluto). This demonstrates the use of negation using 'FILTER NOT EXISTS'.
 
@@ -225,8 +227,9 @@ You can try evaluating the CycL above, directly on the Cyc server at <http://loc
 Select 'Query' (Enter the CycL query into the opencyc browser text box then click on 'Start as New').
 
 === Demo: graph.rq ===
-
+{{{
 $ ant -Dquery="graph.rq" demo-run
+}}}
 
 This example highlights the use of the SPARQL named graph mechanism to select a specific Cyc micro-theory. 
 This is similar to the previous example (and has the same result-set), but the planetary information is obtained from the specific micro-theory, '!UniverseDataMt',  it was asserted in. 
@@ -251,8 +254,9 @@ WHERE {
 In this case the FILTER is not combined with the GRAPH in a single CycL query because they are evaluated in different micro-theories.
 
 === Demo: function.rq ===
-
+{{{
 $ ant -Dquery="function.rq" demo-run
+}}}
 
 Next, we compute which planets are in the supposed "Circumstellar Habitable Zone" around the Sun. These planets should lie within 0.725 and 3 Astronomical Units from the Sun. The orbital radius is computed from the orbital period using Kepler's 3rd law. The functions in this example are evaluated directly by Cyc and the results assigned to the variable 'orbit'.
 
@@ -303,8 +307,9 @@ In this case we use the nat:Double function to cast the orbital period into a do
 }}}
 
 === Demo: rule.rq ===
-
+{{{
 $ ant -Dquery="rule.rq" demo-run
+}}}
 
 This example allows demonstrates the use of Cyc inference to dynamically compute the value of a predicate. We again use Kepler's 3rd law, but this time we use the following rule (asserted in demo-setup) to calculate the orbital radius.
 
