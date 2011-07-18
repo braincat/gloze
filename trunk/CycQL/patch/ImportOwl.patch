@@ -1,0 +1,11 @@
+--- src/org/opencyc/xml/ImportOwl.java	2010-12-15 20:34:27.000000000 +0000
++++ patch/org/opencyc/xml/ImportOwl.java	2010-12-14 13:47:35.000000000 +0000
+@@ -77,7 +77,7 @@
+     this.cycAccess = cycAccess;
+     startMilliseconds = System.currentTimeMillis();
+     arp = new ARP();
+-    arp.setStatementHandler(this);
++    arp.getHandlers().setStatementHandler(this);
+     initialize();
+   }
+   

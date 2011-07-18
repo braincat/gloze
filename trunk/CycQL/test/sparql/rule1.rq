@@ -1,0 +1,25 @@
+# Circumstellar Habitable Zone
+
+# orbitalRadius is inferred from the orbital period using Kepler's 3rd law :
+# (#$implies 
+#  (#$and 
+#    (#$orbitalPeriod ?BODY (#$DaysDuration ?PERIOD))
+#    (#$evaluate ?RADIUS (#$ExponentFn (#$QuotientFn ?PERIOD 365) (#$QuotientFn 2 3) )) 
+#  )
+#  (#$orbitalRadius ?BODY (#$AstronomicalUnit ?RADIUS)))
+
+PREFIX nat: <java:org.opencyc.sparql.function.nat.> 
+PREFIX : <>
+
+SELECT ?planet ?orbital_radius
+FROM :UniverseDataMt
+WHERE {
+	LET (?min := 0.725)
+	?planet a :Planet ;
+		:orbits :TheSun ;
+		:orbitalRadius ?orbital_radius
+
+	# In the solar system the CHZ extends from 0.725 to 3.0 AUs
+	FILTER (?min < nat:Double(?orbital_radius) && nat:Double(?orbital_radius) < 3.0)
+}
+ORDER BY nat:Double(?orbital_radius)

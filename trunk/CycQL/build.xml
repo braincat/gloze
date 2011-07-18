@@ -1,0 +1,126 @@
+<project name="Cyc sparql adapter" default="dist" basedir=".">
+
+	<property name="opencyc" location="opencyc-2.0" />
+	<property name="src" location="${opencyc}/src" />
+	<property name="lib" location="${opencyc}/lib" />
+	<property name="build" location="${opencyc}/build" />
+	<property name="tmp" location="tmp" />
+	<property name="server" location="${opencyc}/server" />
+	<property name="scripts" location="${opencyc}/scripts" />
+
+	<property name="opencyc.url" value="http://sourceforge.net/projects/opencyc/files/OpenCyc%202.0/opencyc-2.0-linux.tgz" />
+	<property name="jena.url" value="http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip" />
+	<property name="jvmargs" value="-Dcom.sun.management.jmxremote" />
+
+	<target name="uninstall">
+		<delete dir="${opencyc}" />
+	</target>
+
+	<target name="clean" depends="uninstall">
+		<delete dir="${tmp}" />
+	</target>
+
+   <target name="check">
+		<condition property="tmp.exists">
+			<available file="${tmp}" type="dir" />
+		</condition>
+		<condition property="lib.exists">
+			<available file="${lib}" type="dir" />
+		</condition>
+		<condition property="src.exists">
+			<available file="${src}" type="dir" />
+		</condition>
+		<condition property="build.exists">
+			<available file="${build}" type="dir" />
+		</condition>
+	</target>
+
+	<target name="download" depends="check" unless="tmp.exists">
+		<mkdir dir="${tmp}" />
+		<parallel>
+			<get src="${jena.url}" dest="${tmp}/jena.zip" skipexisting="true" />
+			<get src="${opencyc.url}" dest="${tmp}/opencyc.tar" skipexisting="true" />
+		</parallel>
+	</target>
+
+	<target name="unpack" depends="check, download" unless="lib.exists">
+		<mkdir dir="${lib}" />
+		<unzip src="${tmp}/jena.zip" dest="${lib}">
+			<patternset includes="**/lib/*.jar" />
+			<mapper type="flatten" />
+		</unzip>
+		<untar src="${tmp}/opencyc.tar" dest="${tmp}" compression="gzip" />
+		<copy todir="${lib}">
+			<fileset dir="${tmp}/opencyc-2.0/api/java/lib">
+				<include name="*.jar" />
+				<exclude name="jena-2.1.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="install" depends="check, unpack" unless="src.exists">
+		<mkdir dir="${src}" />
+		<copy todir="${src}">
+			<fileset dir="${tmp}/opencyc-2.0/api/java/src" includes="**/*" />
+			<fileset dir="src" includes="**/*" />
+		</copy>
+		<mkdir dir="${server}" />
+		<copy todir="${server}">
+			<fileset dir="${tmp}/opencyc-2.0/server" includes="**/*" />
+		</copy>
+		<chmod dir="${server}/cyc/run/bin" perm="a+x" includes="*.sh" />
+		<mkdir dir="${scripts}" />
+		<copy todir="${scripts}">
+			<fileset dir="${tmp}/opencyc-2.0/scripts" />
+		</copy>
+		<chmod dir="${scripts}" perm="a+x" includes="*.sh" />
+		<copy todir="${opencyc}" >
+			<fileset dir="${tmp}/opencyc-2.0" includes="*.txt *.html" />
+		</copy>
+		<patch patchfile="patch/ImportOwl.patch" originalfile="${src}/org/opencyc/xml/ImportOwl.java" />
+		<patch patchfile="patch/RDFTriples.patch" originalfile="${src}/org/opencyc/xml/RDFTriples.java" />
+	</target>
+
+	<target name="re-install">
+		<delete dir="${src}" />
+		<delete dir="${build}" />
+		<ant target="install" />
+	</target>
+
+	<target name="compile" depends="check, install" unless="build.exists">
+		<mkdir dir="${build}" />
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+			<classpath>
+				<fileset dir="${lib}" includes="*.jar"/>
+			</classpath>
+		</javac>
+		<copy todir="${build}">
+			<fileset dir="${src}" excludes="**/*.java"/>
+		</copy>
+	</target>
+
+	<target name="re-compile">
+		<delete dir="${build}" />
+		<ant target="compile" />
+	</target>
+
+	<path id="demo.classpath">
+		<pathelement location="${build}" />
+		<fileset dir="${lib}" includes="*.jar"/>
+	</path>
+
+	<target name="demo-setup" depends="compile" >
+		<java classname="org.opencyc.sparql.demo.Demo">
+			<classpath refid="demo.classpath" />
+		</java>
+	</target>
+
+	<target name="demo-run" depends="compile">
+		<java classname="org.opencyc.sparql.demo.DemoQuery" fork="true">
+			<arg line="sparql/${query}" />
+			<jvmarg line="${jvmargs}" />
+			<classpath refid="demo.classpath" />
+		</java>
+	</target>
+
+</project>

@@ -1,0 +1,11 @@
+PREFIX : <>
+
+SELECT *
+FROM :UniverseDataMt
+WHERE {
+	{}
+	?planet a :DwarfPlanet
+	{{ ?moon :orbits ?planet }
+	UNION
+	{ ?planet :orbits ?body }}
+}

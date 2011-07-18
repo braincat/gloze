@@ -1,0 +1,11 @@
+--- src/org/opencyc/xml/RDFTriples.java	2010-12-15 20:34:27.000000000 +0000
++++ patch/org/opencyc/xml/RDFTriples.java	2010-12-14 13:49:23.000000000 +0000
+@@ -48,7 +48,7 @@
+      */
+     public RDFTriples () {
+         arp = new ARP();
+-        arp.setStatementHandler(this);
++        arp.getHandlers().setStatementHandler(this);
+     }
+ 
+     /**

@@ -1,0 +1,13 @@
+PREFIX : <>
+
+SELECT ?planet ?orbital_period
+FROM :CurrentWorldDataCollectorMt-NonHomocentric
+FROM NAMED :UniverseDataMt
+WHERE {
+	GRAPH :UniverseDataMt { 
+		?planet a :Planet ; 
+			:orbits :TheSun ;
+			:orbitalPeriod ?orbital_period
+	}
+	FILTER (NOT EXISTS { ?planet a :DwarfPlanet })
+}
