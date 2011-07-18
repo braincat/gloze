@@ -43,7 +43,7 @@ The Cyc SPARQL adapter is provided with an ant build script (build.xml).
 
  * *ant download* _Downloads the required Jena (23.3 MB) and !OpenCyc (220.8 MB) distributions to tmp directory._
 
- * *ant install (ant re-install)* _Unpacks Jena and !OpenCyc and applies patchesto !OpenCyc bringing it up to date with Jena. It then merges the sparql adapter source with openCyc source in opencyc-2.0/src._
+ * *ant install (ant re-install)* _Unpacks Jena and !OpenCyc and applies patchesto !OpenCyc bringing it up to date with Jena. It then merges the sparql adapter source with !OpenCyc source in opencyc-2.0/src._
 
  * *ant unpack* _Unzip jena and untar OpenCyc._
 
@@ -221,7 +221,7 @@ $ ant -Dquery="graph.rq" demo-run
 
 This example highlights the use of the SPARQL named graph mechanism to select a specific Cyc micro-theory. 
 This is similar to the previous example (and has the same result-set), but the planetary information is obtained from the specific micro-theory, 'UniverseDataMt',  it was asserted in. 
-However, the negation has to be performed in the 'MtSpace' (default) micro-theory, as this triple doesn't exist at all in the UniverseDataMt micro-theory.
+However, the negation has to be performed in the 'CurrentWorldDataCollectorMt-NonHomocentric' (default) micro-theory, as this triple doesn't exist at all in the UniverseDataMt micro-theory.
 
 {{{
 PREFIX : <>
