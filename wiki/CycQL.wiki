@@ -120,7 +120,7 @@ WHERE {
 }
 }}}
 
-The results are as follows. Note Cyc constants defined relative to the base, e.g. :PlanetEarth, and the use of RDF URIs, e.g. <http://dbpedia.org/resource/Pluto>.
+The results are as follows. Note Cyc constants defined relative to the base, e.g. :!PlanetEarth, and the use of RDF URIs, e.g. <http://dbpedia.org/resource/Pluto>.
 {{{
      [java] ----------------------------------------------------------------------------
      [java] | planet                                         | moon                    |
@@ -150,9 +150,9 @@ $ ant -Dquery="negation.rq" demo-run
 
 This example filters the planets resulting from the previous example by eliminating Dwarf planets (i.e. Pluto). This demonstrates the use of negation using 'FILTER NOT EXISTS'.
 
-This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPlanet) in CurrentWorldDataCollectorMt-NonHomocentric.
-Note that this microtheory is a superset of UniverseDataMt, containing all the assertions of the latter in addition to the assertion above.
-It also makes use of additional assertions in UniverseDataMt that define the orbital periods of the planets:
+This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPlanet) in '!CurrentWorldDataCollectorMt-NonHomocentric'.
+Note that this microtheory is a superset of '!UniverseDataMt', containing all the assertions of the latter in addition to the assertion above.
+It also makes use of additional assertions in '!UniverseDataMt' that define the orbital periods of the planets:
 
 {{{
 		(#$orbitalPeriod #$PlanetMercury (#$DaysDuration 88))
@@ -218,8 +218,8 @@ Select 'Query' (Enter the CycL query into the opencyc browser text box then clic
 $ ant -Dquery="graph.rq" demo-run
 
 This example highlights the use of the SPARQL named graph mechanism to select a specific Cyc micro-theory. 
-This is similar to the previous example (and has the same result-set), but the planetary information is obtained from the specific micro-theory, 'UniverseDataMt',  it was asserted in. 
-However, the negation has to be performed in the 'CurrentWorldDataCollectorMt-NonHomocentric' (default) micro-theory, as this triple doesn't exist at all in the UniverseDataMt micro-theory.
+This is similar to the previous example (and has the same result-set), but the planetary information is obtained from the specific micro-theory, '!UniverseDataMt',  it was asserted in. 
+However, the negation has to be performed in the '!CurrentWorldDataCollectorMt-NonHomocentric' (default) micro-theory, as this triple doesn't exist at all in the '!UniverseDataMt' micro-theory.
 
 {{{
 PREFIX : <>
@@ -351,33 +351,43 @@ The results are as follows:
 
 To work with named graphs we define a CycQueryEngine that overrides QueryEngineMain.modifyOp(). It's factory is registered in DemoQuery with:
 
+{{{
 	// a custom query engine overrides modifyOp transforming operations to quad form
 	QueryEngineRegistry.addFactory(new CycQueryEngine.Factory()) ; 
+}}}
 
 Each step of query evaluation is routed through an OpExecutor. We provide CycOpExecutors to evaluate graph patterns, filters, sequences and joins. The factory for generating these OpExecutors is registered in DemoQuery with:
 
+{{{
 	// a custom opExecutor directs graph operations to the appropriate stage generator
 	QC.setFactory(context, new CycOpExecutorFactory()) ;
+}}}
 
 A custom dataset implementation (CycDatasetGraph) wraps Cyc as an RDF Graph. DemoQuery creates this customised dataset with:
 
+{{{
 	CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "
 	QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
+}}}
 
 Operators to be compiled into CycL are routed by a CycOpExecutor to a CycStageGenerator. This is registered in DemoQuery with:
 
+{{{
 	// add a custom stage generator
 	Context context = ARQ.getContext();
 	context.set(ARQ.stageGenerator, new CycStageGenerator()) ;
+}}}
 
 The CycStageGenerator executes triple/quad patterns and other algebraic operations and returns a BindingIterator. Patterns and operators are compiled into a CycL query and then evaluated to produce Bindings.
 
 Access to Cyc functions is provided by registering them with a function registry. Given the function URI, the function factory automatically queries Cyc for the arity and return type. Function registration in DemoQuery:
 
+{{{
 	// Register functions
 	FunctionRegistry.get().put(PLUS_FN, funFactory) ;
 	FunctionRegistry.get().put(QUOTIENT_FN, funFactory) ;
 	FunctionRegistry.get().put(EXPONENT_FN, funFactory) ;
+}}}
 
 Furthermore, a number of Java functions are registered (nat:Double, nat:Integer) to map the lexical value of NATs (Non-Atomic Terms) to XSD datatypes.
 
