@@ -4,6 +4,7 @@
 
 == Requirements ==
 Opencyc-2.0 <http://sourceforge.net/projects/opencyc/files/>
+
 Jena-2.6.4 <http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip/download> (includes arq-2.8.7 )
 
 == Opencyc server ==
@@ -82,6 +83,7 @@ Create a planetary system, then query it to discover the planets and their moons
 
 The following CycL assertions have been made in 'UniverseDataMt' (in demo-setup).
 
+{{{
 		// Mercury
 		(#$orbits #$PlanetMercury #$TheSun)
 
@@ -120,9 +122,11 @@ The following CycL assertions have been made in 'UniverseDataMt' (in demo-setup)
 		(#$orbits #$Charon-MoonOfPluto #$PlanetPluto)
 		(#$orbits #$Nix-MoonOfPluto #$PlanetPluto)
 		(#$orbits #$Hydra-MoonOfPluto #$PlanetPluto)
+}}}
 
 This information is accessed via the Cyc SPARQL adapter with the following query:
 
+{{{
 PREFIX : <>
 
 SELECT ?planet ?moon
@@ -131,10 +135,10 @@ WHERE {
 	?planet a :Planet ; :orbits :TheSun ;
 	OPTIONAL { ?moon :orbits ?planet; a :MoonOfAPlanet }
 }
-
+}}}
 
 The results are as follows. Note Cyc constants defined relative to the base, e.g. :PlanetEarth, and the use of RDF URIs, e.g. <http://dbpedia.org/resource/Pluto>.
-
+{{{
      [java] ----------------------------------------------------------------------------
      [java] | planet                                         | moon                    |
      [java] ============================================================================
@@ -155,6 +159,7 @@ The results are as follows. Note Cyc constants defined relative to the base, e.g
      [java] | <http://dbpedia.org/resource/Mars>             | :Deimos-MoonOfMars      |
      [java] | <http://dbpedia.org/resource/Mars>             | :Phobos-MoonOfMars      |
      [java] ----------------------------------------------------------------------------
+}}}
 
 === Demo: negation.rq ===
 
