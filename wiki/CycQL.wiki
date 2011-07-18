@@ -4,9 +4,9 @@
  * Opencyc-2.0 <http://sourceforge.net/projects/opencyc/files/>
  * Jena-2.6.4 <http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip/download> (includes arq-2.8.7 )
 
-== Opencyc server ==
+== !OpenCyc server ==
 
-run Cyc server:
+Start the !OpenCyc server:
 {{{
  $ ./scripts-mac/run-cyc.sh
 OR
@@ -396,7 +396,7 @@ Furthermore, a number of Java functions are registered (nat:Double, nat:Integer)
 To run the test-suite:
 
  # cd to the test directory
- # If setup has not been run for the demo or test, execute: ant test-setup
- # To run all tests, execute: ant test-run
+ # If setup has not been run for the demo or test, execute: *ant test-setup*
+ # To run all tests, execute: *ant test-run*
 
 The test-results are written to test/results
