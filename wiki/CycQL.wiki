@@ -62,10 +62,10 @@ CycL queries from the CycL directory can be entered in the page on the Query tab
 
 == Demo ==
 
-The demos are set-up by running demo-setup. This makes various additional assertions required below.
-
+The demos are set-up by running demo-setup. This makes various additional assertions required below. In a new shell, execute the following command:
+{{{
 $ ant demo-setup
-
+}}}
 
 === Demo: optional.rq ===
 
