@@ -62,9 +62,6 @@ Removes the build (build) and installed source (opencyc-2.0/src) but doesn't del
 * ant clean
 Deletes downloaded files (tmp), libraries (opencyc-2.0/lib), and merged source files (opencyc-2.0/src)
 
-Cyc SPARQL adapter source code in directory sparql.
-Demo query (planets.rq) in 'sparql' directory
-
 == Demo ==
 
 The demos are set-up by running demo-setup. This makes various additional assertions required below.
