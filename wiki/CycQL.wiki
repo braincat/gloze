@@ -150,7 +150,7 @@ $ ant -Dquery="negation.rq" demo-run
 
 This example filters the planets resulting from the previous example by eliminating Dwarf planets (i.e. Pluto). This demonstrates the use of negation using 'FILTER NOT EXISTS'.
 
-This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPlanet) in '!CurrentWorldDataCollectorMt-NonHomocentric'.
+This makes use of the additional CycL assertion: '(#$isa #$PlanetPluto #$DwarfPlanet)' in '!CurrentWorldDataCollectorMt-NonHomocentric'.
 Note that this microtheory is a superset of '!UniverseDataMt', containing all the assertions of the latter in addition to the assertion above.
 It also makes use of additional assertions in '!UniverseDataMt' that define the orbital periods of the planets:
 
