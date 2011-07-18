@@ -18,16 +18,14 @@ CycL queries from the CycL directory can be entered in the page on the Query tab
 
 == File organization ==
 
- * *'patch' directory*
-_Patches required to use the opencyc API with jena 2.6.3. FYI Patches were generated thus:
+ * *'patch' directory* _Patches required to use the opencyc API with jena 2.6.3. FYI Patches were generated thus:
+{{{
 diff -u src/org/opencyc/xml/ImportOwl.java patch/org/opencyc/xml/ImportOwl.java > patch/ImportOwl.patch
 diff -u src/org/opencyc/xml/RDFTriples.java patch/org/opencyc/xml/RDFTriples.java > patch/RDFTriples.patch_
+}}}
+ * *'scripts-mac' directory* _An additional script (run-cyc.sh) required to run OpenCyc on Mac OS X._
 
- * 'scripts-mac' directory
-An additional script (run-cyc.sh) required to run OpenCyc on Mac OS X.
-
- * 'sparql' directory
-Example SPARQL queries.
+ * *'sparql' directory* _Example SPARQL queries._
 
  * 'CycL' directory
 Example CycL queries
