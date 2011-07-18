@@ -1,0 +1,21 @@
+# Circumstellar Habitable Zone
+
+PREFIX cyc: <http://www.opencyc.org#>
+PREFIX nat: <java:org.opencyc.sparql.function.nat.> 
+PREFIX : <>
+
+SELECT ?planet ?AUs
+FROM :UniverseDataMt
+WHERE {
+	?planet a :Planet ; 
+		:orbits :TheSun ;
+		:orbitalPeriod ?orbital_period
+	
+	# Calculate planetary distance with Kepler's 3rd law:
+	# orbital_period(years)^2 = astronomical_units^3
+	LET (?AUs := cyc:ExponentFn(cyc:QuotientFn(nat:Double(?orbital_period), 365), cyc:QuotientFn(2,3)) )
+	
+	# In the solar system the CHZ extends from 0.725 to 3.0 AUs
+	FILTER (0.725 < ?AUs && ?AUs < 3.0)
+}
+ORDER BY ?AUs

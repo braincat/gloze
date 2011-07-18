@@ -1,0 +1,8 @@
+PREFIX : <>
+
+SELECT ?planet ?moon
+FROM :UniverseDataMt
+WHERE {
+	?planet a :Planet ; :orbits :TheSun ;
+	OPTIONAL { ?moon :orbits ?planet; a :MoonOfAPlanet }
+}

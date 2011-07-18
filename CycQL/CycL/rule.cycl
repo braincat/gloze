@@ -1,0 +1,7 @@
+(#$and 
+  (#$orbits ?PLANET #$TheSun) 
+  (#$isa ?PLANET #$Planet)
+  (#$orbitalRadius ?PLANET (#$AstronomicalUnit ?RADIUS))
+  (#$lessThan 0.725 ?RADIUS)
+  (#$lessThan ?RADIUS 3.0)
+ )

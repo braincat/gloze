@@ -1,0 +1,7 @@
+(#$and 
+  (#$isa ?PLANET #$DwarfPlanet)
+  (#$or 
+  	(#$orbits ?MOON ?PLANET )
+  	(#$orbits ?PLANET ?BODY )
+  )
+ )

@@ -1,0 +1,7 @@
+(#$and 
+  (#$orbits ?PLANET #$TheSun) 
+  (#$isa ?PLANET #$Planet)
+  (#$orbitalPeriod ?PLANET (#$DaysDuration ?PERIOD))
+  (#$lessThan 0.725 (#$ExponentFn (#$QuotientFn ?PERIOD 365) (#$QuotientFn 2 3) ))
+  (#$lessThan (#$ExponentFn (#$QuotientFn ?PERIOD 365) (#$QuotientFn 2 3) ) 3.0)
+ )

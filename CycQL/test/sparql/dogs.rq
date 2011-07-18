@@ -1,0 +1,7 @@
+PREFIX : <>
+
+SELECT ?dog
+FROM :CurrentWorldDataCollectorMt-NonHomocentric
+WHERE {
+	?dog a :Dog
+}

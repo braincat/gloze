@@ -1,0 +1,5 @@
+(#$and 
+  (#$orbits ?PLANET #$TheSun) 
+  (#$isa ?PLANET #$Planet) 
+  (#$orbits ?MOON ?PLANET))
+)
