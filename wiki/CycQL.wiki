@@ -395,11 +395,8 @@ Furthermore, a number of Java functions are registered (nat:Double, nat:Integer)
 
 To run the test-suite:
 
-1) cd to the test directory
+ # cd to the test directory
+ # If setup has not been run for the demo or test, execute: ant test-setup
+ # To run all tests, execute: ant test-run
 
-If setup has not been run for the demo or test, run the following:
-2) $ ant test-setup
-
-To run all tests:
-3) $ ant test-run
 The test-results are written to test/results
