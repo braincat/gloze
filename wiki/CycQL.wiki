@@ -1,5 +1,5 @@
 = CycQL SPARQL adapter for !OpenCyc =
-[http://code.google.com/p/gloze/downloads/detail?name=CycQL-1.0.zip Download]
+ * [http://code.google.com/p/gloze/downloads/detail?name=CycQL-1.0.zip Download]
 
 == Requirements ==
  * Opencyc-2.0 <http://sourceforge.net/projects/opencyc/files/>
