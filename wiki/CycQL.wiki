@@ -7,24 +7,6 @@ CycQL is a Jena/ARQ based SPARQL adapter for !OpenCyc 2.0. It enables one of the
  * Opencyc-2.0 <http://sourceforge.net/projects/opencyc/files/>
  * Jena-2.6.4 <http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip/download> (includes arq-2.8.7 )
 
-== !OpenCyc server ==
-
-If you have not already done so, start the download and installation of Jena and !OpenCyc. From within the CycQL directory execute the following tasks:
-
-{{{
-$ ant install
-}}}
-
-Start the !OpenCyc server:
-{{{
- $ ./scripts-mac/run-cyc.sh
-OR
- $ ./scripts/run-cyc.sh
-}}}
-
-Access the Cyc server at <http://localhost:3602/cgi-bin/cyccgi/cg?cb-start>
-CycL queries from the CycL directory can be entered in the page on the Query tab.
-
 == File organization ==
 
  * *'patch' directory* _Patches required to use the opencyc API with jena 2.6.3. FYI Patches were generated thus:_
@@ -59,6 +41,24 @@ The Cyc SPARQL adapter is provided with an ant build script (build.xml).
  * *ant uninstall* _Removes the build (build) and installed source (opencyc-2.0/src) but doesn't delete downloaded files._
 
  * *ant clean* _Deletes downloaded files (tmp), libraries (opencyc-2.0/lib), and merged source files (opencyc-2.0/src)_
+
+== !OpenCyc server ==
+
+If you have not already done so, start the download and installation of Jena and !OpenCyc. From within the CycQL directory execute the following tasks:
+
+{{{
+$ ant install
+}}}
+
+Launch the Cyc server:
+{{{
+ $ ./scripts-mac/run-cyc.sh
+OR
+ $ ./scripts/run-cyc.sh
+}}}
+
+Access the Cyc server at <http://localhost:3602/cgi-bin/cyccgi/cg?cb-start>
+CycL queries from the CycL directory can be entered in the page on the Query tab.
 
 == Demo ==
 
