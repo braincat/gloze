@@ -18,11 +18,10 @@ CycL queries from the CycL directory can be entered in the page on the Query tab
 
 == File organization ==
 
- * 'patch' directory
-
-Patches required to use the opencyc API with jena 2.6.3. FYI Patches were generated thus:
+ * *'patch' directory*
+_Patches required to use the opencyc API with jena 2.6.3. FYI Patches were generated thus:
 diff -u src/org/opencyc/xml/ImportOwl.java patch/org/opencyc/xml/ImportOwl.java > patch/ImportOwl.patch
-diff -u src/org/opencyc/xml/RDFTriples.java patch/org/opencyc/xml/RDFTriples.java > patch/RDFTriples.patch
+diff -u src/org/opencyc/xml/RDFTriples.java patch/org/opencyc/xml/RDFTriples.java > patch/RDFTriples.patch_
 
  * 'scripts-mac' directory
 An additional script (run-cyc.sh) required to run OpenCyc on Mac OS X.
@@ -166,8 +165,8 @@ $ ant -Dquery="negation.rq" demo-run
 
 This example filters the planets resulting from the previous example by eliminating Dwarf planets (i.e. Pluto). This demonstrates the use of negation using 'FILTER NOT EXISTS'.
 
-This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPlanet) in MtSpace.
-Note that MtSpace is a superset of UniverseDataMt, containing all the assertions of the latter in addition to the assertion above.
+This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPlanet) in CurrentWorldDataCollectorMt-NonHomocentric.
+Note that this microtheory is a superset of UniverseDataMt, containing all the assertions of the latter in addition to the assertion above.
 It also makes use of additional assertions in UniverseDataMt that define the orbital periods of the planets:
 
 {{{
@@ -188,7 +187,7 @@ The SPARQL is as follows.
 PREFIX : <>
 
 SELECT ?planet ?orbital_period
-FROM :MtSpace
+FROM :CurrentWorldDataCollectorMt-NonHomocentric
 WHERE {
 	?planet a :Planet ; 
 		:orbits :TheSun ;
@@ -241,7 +240,7 @@ However, the negation has to be performed in the 'MtSpace' (default) micro-theor
 PREFIX : <>
 
 SELECT ?planet ?orbital_period
-FROM :MtSpace
+FROM :CurrentWorldDataCollectorMt-NonHomocentric
 FROM NAMED :UniverseDataMt
 WHERE {
 	GRAPH :UniverseDataMt { 
