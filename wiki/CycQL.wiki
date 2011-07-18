@@ -62,12 +62,14 @@ CycL queries from the CycL directory can be entered in the page on the Query tab
 
 == Demo ==
 
-The demos are set-up by running demo-setup. This makes various additional assertions required below. In a new shell, execute the following command:
+The demos are set-up by running demo-setup. This makes various additional assertions required below. In a new shell, execute the following command in the CycQL directory:
 {{{
 $ ant demo-setup
 }}}
 
 === Demo: optional.rq ===
+
+The demos can be executed in the same shell (and directory) as above.
 
 $ ant -Dquery="optional.rq" demo-run
 
