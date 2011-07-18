@@ -160,8 +160,8 @@ $ ant -Dquery="negation.rq" demo-run
 
 This example filters the planets resulting from the previous example by eliminating Dwarf planets (i.e. Pluto). This demonstrates the use of negation using 'FILTER NOT EXISTS'.
 
-This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPlanet) in MtSpace.
-Note that MtSpace is a superset of UniverseDataMt, containing all the assertions of the latter in addition to the assertion above.
+This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPlanet) in CurrentWorldDataCollectorMt-NonHomocentric.
+Note that this is a superset of UniverseDataMt, containing all the assertions of the latter in addition to the assertion above.
 It also makes use of additional assertions in UniverseDataMt that define the orbital periods of the planets:
 
 		(#$orbitalPeriod #$PlanetMercury (#$DaysDuration 88))
@@ -179,7 +179,7 @@ The SPARQL is as follows.
 PREFIX : <>
 
 SELECT ?planet ?orbital_period
-FROM :MtSpace
+FROM :CurrentWorldDataCollectorMt-NonHomocentric
 WHERE {
 	?planet a :Planet ; 
 		:orbits :TheSun ;
@@ -221,12 +221,12 @@ $ ant -Dquery="graph.rq" demo-run
 
 This example highlights the use of the SPARQL named graph mechanism to select a specific Cyc micro-theory. 
 This is similar to the previous example (and has the same result-set), but the planetary information is obtained from the specific micro-theory, 'UniverseDataMt',  it was asserted in. 
-However, the negation has to be performed in the 'MtSpace' (default) micro-theory, as this triple doesn't exist at all in the UniverseDataMt micro-theory.
+However, the negation has to be performed in the 'CurrentWorldDataCollectorMt-NonHomocentric' (default) micro-theory, as this triple doesn't exist at all in the UniverseDataMt micro-theory.
 
 PREFIX : <>
 
 SELECT ?planet ?orbital_period
-FROM :MtSpace
+FROM :CurrentWorldDataCollectorMt-NonHomocentric
 FROM NAMED :UniverseDataMt
 WHERE {
 	GRAPH :UniverseDataMt { 
