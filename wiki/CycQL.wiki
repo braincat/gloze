@@ -1,4 +1,4 @@
-#CycQL SPARQL adapter for OpenCyc.
+# CycQL SPARQL adapter for !OpenCyc.
 
 = CycQL Cyc SPARQL adapter =
 
@@ -45,7 +45,7 @@ The Cyc SPARQL adapter is provided with an ant build script (build.xml).
 
  * *ant install (ant re-install)* _Unpacks Jena and !OpenCyc and applies patchesto !OpenCyc bringing it up to date with Jena. It then merges the sparql adapter source with !OpenCyc source in opencyc-2.0/src._
 
- * *ant unpack* _Unzip jena and untar OpenCyc._
+ * *ant unpack* _Unzip jena and untar !OpenCyc._
 
  * *ant compile (ant re-compile)* _Compile the !Opencyc API and SPARQL adapter._
 
