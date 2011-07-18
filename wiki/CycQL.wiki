@@ -1,6 +1,4 @@
-# CycQL SPARQL adapter for !OpenCyc.
-
-= CycQL Cyc SPARQL adapter =
+= CycQL SPARQL adapter for !OpenCyc =
 
 == Requirements ==
  * Opencyc-2.0 <http://sourceforge.net/projects/opencyc/files/>
