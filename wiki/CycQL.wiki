@@ -349,28 +349,28 @@ The results are as follows:
 
 === Guide to the Code ===
 
-To work with named graphs we define a !CycQueryEngine that overrides QueryEngineMain.modifyOp(). It's factory is registered in !DemoQuery with:
+To work with named graphs we define a !CycQueryEngine that overrides !QueryEngineMain.modifyOp(). It's factory is registered in !DemoQuery with:
 
 {{{
 	// a custom query engine overrides modifyOp transforming operations to quad form
 	QueryEngineRegistry.addFactory(new CycQueryEngine.Factory()) ; 
 }}}
 
-Each step of query evaluation is routed through an OpExecutor. We provide CycOpExecutors to evaluate graph patterns, filters, sequences and joins. The factory for generating these OpExecutors is registered in DemoQuery with:
+Each step of query evaluation is routed through an !OpExecutor. We provide !CycOpExecutors to evaluate graph patterns, filters, sequences and joins. The factory for generating these !OpExecutors is registered in !DemoQuery with:
 
 {{{
 	// a custom opExecutor directs graph operations to the appropriate stage generator
 	QC.setFactory(context, new CycOpExecutorFactory()) ;
 }}}
 
-A custom dataset implementation (CycDatasetGraph) wraps Cyc as an RDF Graph. DemoQuery creates this customised dataset with:
+A custom dataset implementation (!CycDatasetGraph) wraps Cyc as an RDF Graph. !DemoQuery creates this customised dataset with:
 
 {{{
 	CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "
 	QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
 }}}
 
-Operators to be compiled into CycL are routed by a CycOpExecutor to a CycStageGenerator. This is registered in DemoQuery with:
+Operators to be compiled into CycL are routed by a !CycOpExecutor to a !CycStageGenerator. This is registered in !DemoQuery with:
 
 {{{
 	// add a custom stage generator
@@ -378,9 +378,9 @@ Operators to be compiled into CycL are routed by a CycOpExecutor to a CycStageGe
 	context.set(ARQ.stageGenerator, new CycStageGenerator()) ;
 }}}
 
-The CycStageGenerator executes triple/quad patterns and other algebraic operations and returns a BindingIterator. Patterns and operators are compiled into a CycL query and then evaluated to produce Bindings.
+The !CycStageGenerator executes triple/quad patterns and other algebraic operations and returns a !BindingIterator. Patterns and operators are compiled into a CycL query and then evaluated to produce Bindings.
 
-Access to Cyc functions is provided by registering them with a function registry. Given the function URI, the function factory automatically queries Cyc for the arity and return type. Function registration in DemoQuery:
+Access to Cyc functions is provided by registering them with a function registry. Given the function URI, the function factory automatically queries Cyc for the arity and return type. Function registration in !DemoQuery:
 
 {{{
 	// Register functions
