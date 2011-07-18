@@ -219,7 +219,7 @@ $ ant -Dquery="graph.rq" demo-run
 
 This example highlights the use of the SPARQL named graph mechanism to select a specific Cyc micro-theory. 
 This is similar to the previous example (and has the same result-set), but the planetary information is obtained from the specific micro-theory, '!UniverseDataMt',  it was asserted in. 
-However, the negation has to be performed in the '!CurrentWorldDataCollectorMt-NonHomocentric' (default) micro-theory, as this triple doesn't exist at all in the '!UniverseDataMt' micro-theory.
+However, the negation has to be performed in the '!CurrentWorldDataCollectorMt-!NonHomocentric' (default) micro-theory, as this triple doesn't exist at all in the '!UniverseDataMt' micro-theory.
 
 {{{
 PREFIX : <>
@@ -349,7 +349,7 @@ The results are as follows:
 
 === Guide to the Code ===
 
-To work with named graphs we define a CycQueryEngine that overrides QueryEngineMain.modifyOp(). It's factory is registered in DemoQuery with:
+To work with named graphs we define a !CycQueryEngine that overrides QueryEngineMain.modifyOp(). It's factory is registered in !DemoQuery with:
 
 {{{
 	// a custom query engine overrides modifyOp transforming operations to quad form
