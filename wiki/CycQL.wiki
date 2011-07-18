@@ -3,9 +3,8 @@
 = CycQL Cyc SPARQL adapter =
 
 == Requirements ==
-Opencyc-2.0 <http://sourceforge.net/projects/opencyc/files/>
-
-Jena-2.6.4 <http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip/download> (includes arq-2.8.7 )
+ * Opencyc-2.0 <http://sourceforge.net/projects/opencyc/files/>
+ * Jena-2.6.4 <http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip/download> (includes arq-2.8.7 )
 
 == Opencyc server ==
 
@@ -19,25 +18,25 @@ CycL queries from the CycL directory can be entered in the page on the Query tab
 
 == File organization ==
 
-* 'patch' directory
+ * 'patch' directory
 
 Patches required to use the opencyc API with jena 2.6.3. FYI Patches were generated thus:
 diff -u src/org/opencyc/xml/ImportOwl.java patch/org/opencyc/xml/ImportOwl.java > patch/ImportOwl.patch
 diff -u src/org/opencyc/xml/RDFTriples.java patch/org/opencyc/xml/RDFTriples.java > patch/RDFTriples.patch
 
-* 'scripts-mac' directory
+ * 'scripts-mac' directory
 An additional script (run-cyc.sh) required to run OpenCyc on Mac OS X.
 
-* 'sparql' directory
+ * 'sparql' directory
 Example SPARQL queries.
 
-* 'CycL' directory
+ * 'CycL' directory
 Example CycL queries
 
-* 'src' directory
+ * 'src' directory
 SPARQL adapter source.
 
-* 'doc' directory
+ * 'doc' directory
 SPARQL adapter documentation
 
 An additional 'tmp' directory is created during download, and installation creates the 'lib', 'server', 'scripts', and 'build' directories.
@@ -46,23 +45,23 @@ An additional 'tmp' directory is created during download, and installation creat
 
 The Cyc SPARQL adapter is provided with an ant build script (build.xml).
 
-* ant download
+ * ant download
 Downloads the required Jena (23.3 MB) and OpenCyc (220.8 MB) distributions to tmp directory.
 
-* ant install (ant re-install)
+ * ant install (ant re-install)
 Unpacks Jena and OpenCyc and applies patchesto OpenCyc bringing it up to date with Jena
 It then merges the sparql adapter source with openCyc source in opencyc-2.0/src.
 
-* ant unpack
+ * ant unpack
 Unzip jena and untar OpenCyc.
 
-* ant compile (ant re-compile)
+ * ant compile (ant re-compile)
 Compile the Opencyc API and SPARQL adapter.
 
-* ant uninstall
+ * ant uninstall
 Removes the build (build) and installed source (opencyc-2.0/src) but doesn't delete downloaded files.
 
-* ant clean
+ * ant clean
 Deletes downloaded files (tmp), libraries (opencyc-2.0/lib), and merged source files (opencyc-2.0/src)
 
 Cyc SPARQL adapter source code in directory sparql.
@@ -171,6 +170,7 @@ This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPla
 Note that MtSpace is a superset of UniverseDataMt, containing all the assertions of the latter in addition to the assertion above.
 It also makes use of additional assertions in UniverseDataMt that define the orbital periods of the planets:
 
+{{{
 		(#$orbitalPeriod #$PlanetMercury (#$DaysDuration 88))
 		(#$orbitalPeriod #$PlanetVenus (#$DaysDuration 225))
 		(#$orbitalPeriod #$PlanetEarth (#$DaysDuration 365))
@@ -180,9 +180,11 @@ It also makes use of additional assertions in UniverseDataMt that define the orb
 		(#$orbitalPeriod #$PlanetUranus (#$DaysDuration 30660))
 		(#$orbitalPeriod #$PlanetNeptune (#$DaysDuration 60152))
 		(#$orbitalPeriod #$PlanetPluto (#$DaysDuration 90739))
+}}}
 
 The SPARQL is as follows.
 
+{{{
 PREFIX : <>
 
 SELECT ?planet ?orbital_period
@@ -193,17 +195,21 @@ WHERE {
 		:orbitalPeriod ?orbital_period
 	FILTER (NOT EXISTS { ?planet a :DwarfPlanet })
 }
+}}}
 
 This is compiled into the following CycL query for evaluation. The SPARQL adapter searches for the largest units of the SPARQL algebra that make sense as a single CycL query. 
 
+{{{
 (#$and 
 	(#$isa ?planet #$Planet)
 	(#$not (#$isa ?planet #$DwarfPlanet))
 	(#$orbits ?planet #$TheSun)
 	(#$orbitalPeriod ?planet ?orbital-period))
+}}}
 
 The results are as follows:
 
+{{{
      [java] ---------------------------------------------------------------------------
      [java] | planet                                         | orbital_period         |
      [java] ===========================================================================
@@ -216,6 +222,7 @@ The results are as follows:
      [java] | <http://dbpedia.org/resource/Uranus>           | "30660"^^:DaysDuration |
      [java] | <http://dbpedia.org/resource/Neptune>          | "60152"^^:DaysDuration |
      [java] ---------------------------------------------------------------------------
+}}}
 
 Observe that the type of the orbital period, represented in Cyc as a Non_Atomic Term (NAT), has been preserved in the output as a custom datatype.
 
@@ -230,6 +237,7 @@ This example highlights the use of the SPARQL named graph mechanism to select a 
 This is similar to the previous example (and has the same result-set), but the planetary information is obtained from the specific micro-theory, 'UniverseDataMt',  it was asserted in. 
 However, the negation has to be performed in the 'MtSpace' (default) micro-theory, as this triple doesn't exist at all in the UniverseDataMt micro-theory.
 
+{{{
 PREFIX : <>
 
 SELECT ?planet ?orbital_period
@@ -243,6 +251,7 @@ WHERE {
 	}
 	FILTER (NOT EXISTS { ?planet a :DwarfPlanet })
 }
+}}}
 
 In this case the FILTER is not combined with the GRAPH in a single CycL query because they are evaluated in different micro-theories.
 
@@ -252,6 +261,7 @@ $ ant -Dquery="function.rq" demo-run
 
 Next, we compute which planets are in the supposed "Circumstellar Habitable Zone" around the Sun. These planets should lie within 0.725 and 3 Astronomical Units from the Sun. The orbital radius is computed from the orbital period using Kepler's 3rd law. The functions in this example are evaluated directly by Cyc and the results assigned to the variable 'orbit'.
 
+{{{
 # Circumstellar Habitable Zone
 PREFIX cyc: <http://www.opencyc.org#>
 PREFIX nat: <java:org.opencyc.sparql.function.nat.> 
@@ -272,9 +282,11 @@ WHERE {
 	FILTER (0.725 < ?AUs && ?AUs < 3.0)
 }
 ORDER BY ?AUs
+}}}
 
 This query is, for the most part, compiled into the CycL below, with only the remaining ORDER BY clause being evaluated by the SPARQL adapter. Note the introduction of the equality to extract the value (?var1) of the orbital period NAT.
 
+{{{
 (#$and 
 	(#$isa ?planet #$Planet)
 	(#$orbits ?planet #$TheSun)
@@ -282,15 +294,18 @@ This query is, for the most part, compiled into the CycL below, with only the re
 	(#$equals ?orbital-period (??var0 ?var1))
 	(#$evaluate ?AUs (#$ExponentFn (#$QuotientFn ?var1 365) (#$QuotientFn 2 3)))
 	(#$lessThan 0.725 ?AUs)(#$lessThan ?AUs 3.0))
+}}}
 
 In this case we use the nat:Double function to cast the orbital period into a double value that could be used in calculations.
 
+{{{
      [java] -------------------------------------------------------------
      [java] | planet                             | AUs                  |
      [java] =============================================================
      [java] | :PlanetEarth                       | 1.0e0                |
      [java] | <http://dbpedia.org/resource/Mars> | 1.5244361831950344e0 |
      [java] -------------------------------------------------------------
+}}}
 
 === Demo: rule.rq ===
 
@@ -298,15 +313,18 @@ $ ant -Dquery="rule.rq" demo-run
 
 This example allows demonstrates the use of Cyc inference to dynamically compute the value of a predicate. We again use Kepler's 3rd law, but this time we use the following rule (asserted in demo-setup) to calculate the orbital radius.
 
+{{{
  (#$implies 
   (#$and 
     (#$orbitalPeriod ?BODY (#$DaysDuration ?PERIOD))
     (#$evaluate ?RADIUS (#$ExponentFn (#$QuotientFn ?PERIOD 365) (#$QuotientFn 2 3) )) 
   )
   (#$orbitalRadius ?BODY (#$AstronomicalUnit ?RADIUS)))
+}}}
 
 Observe again, in the results below, that the units of the result are preserved. Before the orbital radius can be used in a comparison (or order-by clause) these units need to be converted into a Double. This uses ARQ's facility to dynamically load Java functions (see the 'fun' namespace).
 
+{{{
 PREFIX nat: <java:org.opencyc.sparql.function.nat.> 
 PREFIX : <>
 
@@ -321,22 +339,29 @@ WHERE {
 	FILTER (0.725 < nat:Double(?orbital_radius) && nat:Double(?orbital_radius) < 3.0)
 }
 ORDER BY nat:Double(?orbital_radius)
+}}}
 
 This is compiled into the following CycL:
 
+{{{
 (#$and 
 	(#$isa ?planet #$Planet)
 	(#$orbits ?planet #$TheSun)
 	(#$orbitalRadius ?planet ?orbital-radius)
 	(#$equals ?orbital-radius (??var0 ?var1))
 	(#$lessThan 0.725 ?var1)(#$lessThan ?var1 3.0))
+}}}
 
+The results are as follows:
+
+{{{
      [java] --------------------------------------------------------------------------------
      [java] | planet                             | orbital_radius                          |
      [java] ================================================================================
      [java] | :PlanetEarth                       | "1.0"^^:AstronomicalUnit                |
      [java] | <http://dbpedia.org/resource/Mars> | "1.5244361831950344"^^:AstronomicalUnit |
      [java] --------------------------------------------------------------------------------
+}}}
 
 === Guide to the Code ===
 
