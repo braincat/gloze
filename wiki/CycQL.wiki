@@ -1,4 +1,4 @@
-= CycQL SPARQL adapter for !OpenCyc =
+= CycQL SPARQL adapter for !OpenCyc 2.0 =
 CycQL is a Jena/ARQ based SPARQL adapter for !OpenCyc 2.0. It enables one of the most powerful inference engines in the world to be used with Semantic Web tools.
 
  * [http://code.google.com/p/gloze/downloads/detail?name=CycQL-1.0.zip Download]
