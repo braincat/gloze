@@ -321,7 +321,7 @@ This example allows demonstrates the use of Cyc inference to dynamically compute
   (#$orbitalRadius ?BODY (#$AstronomicalUnit ?RADIUS)))
 }}}
 
-Observe again, in the results below, that the units of the result are preserved. Before the orbital radius can be used in a comparison (or order-by clause) these units need to be converted into a Double. This uses ARQ's facility to dynamically load Java functions (see the 'fun' namespace).
+Observe again, in the results below, that the units of the result are preserved. Before the orbital radius can be used in a comparison (or order-by clause) these units need to be converted into a Double. In the case of the ORDER BY clause, this uses ARQ's facility to dynamically load Java functions (see the 'nat' namespace). However, where nat:Double appears in the FILTER it will, in this case, be compiled into CycL, producing the 'equals' clause.
 
 {{{
 PREFIX nat: <java:org.opencyc.sparql.function.nat.> 
