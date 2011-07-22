@@ -310,7 +310,7 @@ In this case we use the nat:Double function to cast the orbital period into a do
 $ ant -Dquery="rule.rq" demo-run
 }}}
 
-This example allows demonstrates the use of Cyc inference to dynamically compute the value of a predicate. We again use Kepler's 3rd law, but this time we use the following rule (asserted in demo-setup) to calculate the orbital radius.
+This example demonstrates the use of Cyc inference to dynamically compute the value of a predicate. We again use Kepler's 3rd law, but this time we use the following rule (asserted in demo-setup) to calculate the orbital radius.
 
 {{{
  (#$implies 
