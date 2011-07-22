@@ -381,7 +381,7 @@ Each step of query evaluation is routed through an !OpExecutor. We provide !CycO
 A custom dataset implementation (!CycDatasetGraph) wraps Cyc as an RDF Graph. !DemoQuery creates this customised dataset with:
 
 {{{
-	CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "
+	CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "");
 	QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
 }}}
 
