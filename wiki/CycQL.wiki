@@ -9,7 +9,7 @@ CycQL is a Jena/ARQ based SPARQL adapter for !OpenCyc 2.0. It enables one of the
 
 == File organization ==
 
- * *'patch' directory* _Patches required to use the opencyc API with jena 2.6.3. FYI Patches were generated thus:_
+ * *'patch' directory* _Patches required to use the opencyc API with jena 2.6.4. FYI Patches were generated thus:_
 {{{
 diff -u src/org/opencyc/xml/ImportOwl.java patch/org/opencyc/xml/ImportOwl.java > patch/ImportOwl.patch
 diff -u src/org/opencyc/xml/RDFTriples.java patch/org/opencyc/xml/RDFTriples.java > patch/RDFTriples.patch_
