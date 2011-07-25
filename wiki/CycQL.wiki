@@ -4,8 +4,8 @@ CycQL is a Jena/ARQ based SPARQL adapter for !OpenCyc 2.0. It enables one of the
  * [http://code.google.com/p/gloze/downloads/detail?name=CycQL-1.0.zip Download]
 
 == Requirements ==
- * Opencyc-2.0 <http://sourceforge.net/projects/opencyc/files/>
- * Jena-2.6.4 <http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip/download> (includes arq-2.8.7 )
+ * Opencyc-2.0 [http://sourceforge.net/projects/opencyc/files/]
+ * Jena-2.6.4 [http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip/download] (includes arq-2.8.7 )
 
 == File organization ==
 
