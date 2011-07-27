@@ -57,7 +57,7 @@ OR
  $ ./scripts/run-cyc.sh
 }}}
 
-Access the Cyc server at <http://localhost:3602/cgi-bin/cyccgi/cg?cb-start>
+Access the Cyc server at [http://localhost:3602/cgi-bin/cyccgi/cg?cb-start]
 CycL queries from the CycL directory can be entered in the page on the Query tab.
 
 == Demo ==
