@@ -1,0 +1,14 @@
+PREFIX : <>
+
+SELECT ?planet ?orbital_period
+FROM :CurrentWorldDataCollectorMt-NonHomocentric
+FROM NAMED :UniverseDataMt
+FROM NAMED :EarthObservationalAstronomyMt
+WHERE {
+	GRAPH ?g { 
+		?planet a :Planet ; 
+			:orbits :TheSun ;
+			:orbitalPeriod ?orbital_period
+	}
+	?planet a :DwarfPlanet
+}

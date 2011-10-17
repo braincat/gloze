@@ -17,6 +17,7 @@
 package org.opencyc.sparql;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.opencyc.sparql.iterator.CycOpIter;
 import org.opencyc.sparql.op.CycOpBGP;
@@ -26,6 +27,7 @@ import org.opencyc.sparql.op.CycOpQuadPattern;
 import org.opencyc.sparql.op.CycOpSequence;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.sparql.algebra.op.OpFilter;
 import com.hp.hpl.jena.sparql.algebra.op.OpJoin;
 import com.hp.hpl.jena.sparql.algebra.op.OpSequence;
@@ -39,6 +41,7 @@ import com.hp.hpl.jena.sparql.engine.binding.Binding;
 import com.hp.hpl.jena.sparql.engine.binding.BindingMap;
 import com.hp.hpl.jena.sparql.engine.iterator.QueryIterConcat;
 import com.hp.hpl.jena.sparql.engine.iterator.QueryIterRepeatApply;
+import com.hp.hpl.jena.util.iterator.NullIterator;
 
 /** 
  * Operators to be compiled into CycL are routed by a CycOpExecutor to a CycStageGenerator. 
@@ -66,11 +69,13 @@ public class CycStageGenerator extends CycStageGeneratorBase {
 			// sum bindings over matching graphs
 			QueryIterConcat it = new QueryIterConcat(getExecContext()) ;
 			// iterate over all named graphs in the model
+// NO NEED TO PASS THIS?
 			DatasetGraph dsg = getExecContext().getDataset() ;
+			
 			// in case the graph is unbound, iterate over named graphs
 			Node name = CycOpBGP.graphName(pattern, binding); 
 			if (name.isVariable()) {
-				for (Iterator<Node> named = dsg.listGraphNodes(); named.hasNext() ;) {
+				for (Iterator<Node> named = listGraphNodes(); named.hasNext() ;) {
 					// bind the graph name so this is available in the BGP
 					Binding b = bind(name, named.next(), binding);
 					it.add(new CycOpIter(dsg,new CycOpQuadPattern(pattern,b),getExecContext(), b));
@@ -79,7 +84,33 @@ public class CycStageGenerator extends CycStageGeneratorBase {
 			// add an iterator in case the graph name is constant or bound
 			else it.add(new CycOpIter(dsg,new CycOpQuadPattern(pattern,binding),getExecContext(), binding));
 			return it ;
-		}		
+		}
+		
+		private Iterator<Node> listGraphNodes() {
+			final CycDatasetGraph dsg = (CycDatasetGraph) getExecContext().getDataset() ;
+			// are the named graphs specified in the query
+			Query query = (Query) getExecContext().getContext().get(CycQueryEngine.QUERY) ;
+//			List<String> graphs = query.getGraphURIs() ;
+			final List<String> namedGraphs = query.getNamedGraphURIs() ;
+			if (namedGraphs.size()>0) {
+				return new Iterator<Node>() {
+					int i=0 ;
+					@Override
+					public boolean hasNext() {
+						return i<namedGraphs.size();
+					}
+					@Override
+					public Node next() {
+						return Node.createURI(dsg.getURI(namedGraphs.get(i++))) ;
+					}
+					@Override
+					public void remove() {}		
+				};
+			}
+			// otherwise enumerate over named graphs defined in the dataset graph
+			//return dsg.listGraphNodes() ;
+			return new NullIterator();
+		}
 	}
 
 	protected Binding bind(Node varNode, Node valNode, Binding binding) {

@@ -21,6 +21,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+	TestSetup.class,
 	CycLTest.class,
 	QueryByQuadTest.class, 
 	QueryTest.class

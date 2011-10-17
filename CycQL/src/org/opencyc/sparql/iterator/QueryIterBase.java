@@ -19,6 +19,7 @@ package org.opencyc.sparql.iterator;
 import java.util.Iterator;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.sparql.core.Quad;
 import com.hp.hpl.jena.sparql.core.Var;
 import com.hp.hpl.jena.sparql.engine.ExecutionContext;
@@ -52,6 +53,13 @@ public abstract class QueryIterBase extends QueryIter {
         return node ;
     }
     
+    static Triple substitute(Triple triple, Binding binding) {
+    	return new Triple(
+    		substitute(triple.getSubject(), binding),
+    		substitute(triple.getPredicate(), binding),
+    		substitute(triple.getObject(), binding)) ;
+    }
+    
     static Quad substitute(Quad quad, Binding binding) {
     	return new Quad(
     		substitute(quad.getGraph(), binding),
@@ -65,8 +73,8 @@ public abstract class QueryIterBase extends QueryIter {
 			Var var = Var.alloc(x.getName()) ;
 			if (!b.contains(var)) b.add(var, y) ;
 		}
-	}
-	
+	}	
+		
 	protected boolean hasNextBinding() {
         if (slot != null) return true ;
         // fill the binding slot

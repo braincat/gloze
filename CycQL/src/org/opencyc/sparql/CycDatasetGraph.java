@@ -20,10 +20,12 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
 import org.opencyc.api.CycAccess;
+import org.opencyc.api.CycApiException;
 import org.opencyc.api.CycObjectFactory;
 import org.opencyc.cycobject.CycConstant;
 import org.opencyc.cycobject.CycFort;
@@ -41,14 +43,18 @@ import com.hp.hpl.jena.graph.Node_ANY;
 import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.graph.TripleMatch;
 import com.hp.hpl.jena.graph.impl.GraphBase;
-import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.Dataset;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.shared.PrefixMapping;
 import com.hp.hpl.jena.sparql.core.DatasetGraph;
 import com.hp.hpl.jena.sparql.core.DatasetGraphBase;
 import com.hp.hpl.jena.sparql.core.Quad;
-import com.hp.hpl.jena.util.iterator.NullIterator;
+import com.hp.hpl.jena.update.GraphStore;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 import com.hp.hpl.jena.util.iterator.Map1;
+import com.hp.hpl.jena.util.iterator.NullIterator;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
@@ -63,7 +69,10 @@ import com.hp.hpl.jena.vocabulary.RDF;
 
 @SuppressWarnings("unchecked")
 
-public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
+public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph, GraphStore {
+	
+	private static final String DEFAULT_MT = "CurrentWorldDataCollectorMt-NonHomocentric" ;
+	//private static final String DEFAULT_MT = CycAccess.baseKB.toString() ;
 
 	/* Feature properties */
 	public static final CycSymbol MAX_TIME =  new CycSymbol(":MAX-TIME") ;
@@ -73,36 +82,40 @@ public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
 	public static final CycSymbol MAX_TRANSFORMATION_DEPTH =  new CycSymbol(":MAX-TRANSFORMATION-DEPTH") ; // Integer
 	public static final CycSymbol MAX_NUMBER =  new CycSymbol(":MAX-NUMBER") ; // Integer
 	
+	/* Query for microtheories */
+	private static String ISA_MT = "(#$isa ?MT #$Microtheory)" ;
+	
 	/* Feature Values */
 	/* Value for DIRECTION */
 	public static final CycSymbol CYC_SYMBOL = new CycSymbol(":BACKWARD");
 	
 	protected static HashMap<String, CycConstant> symbolTable = new HashMap<String,CycConstant>();
 	
-	protected String defaultNS ;
+	protected String base, microtheory ;
 	protected CycAccess cyc;
-	protected List<String> graphs, namedGraphs ;
+	//protected List<String> graphs, namedGraphs ;
 	protected HashMap<Object,Object> inferenceParams = new HashMap<Object,Object>();
 	
 	public CycDatasetGraph(CycAccess cyc) {
-		super();
-		this.cyc = cyc ;
+		this(cyc,"",DEFAULT_MT);
 	}
 
-	public CycDatasetGraph(Query query, CycAccess cyc, String defaultNSPrefix) {
+	public CycDatasetGraph(CycAccess cyc, String base) {
+		this(cyc,base,DEFAULT_MT);
+	}
+	
+	public CycDatasetGraph(CycAccess cyc, String base, String microtheory) {
 		super();
-		graphs = query.getGraphURIs();
-		namedGraphs = query.getNamedGraphURIs();
-		defaultNS = query.getPrefix(defaultNSPrefix) ;
+//		graphs = query.getGraphURIs();
+//		namedGraphs = query.getNamedGraphURIs();
+//		defaultNS = query.getPrefix(defaultNSPrefix) ;
 		this.cyc = cyc ;
+		this.base = base ;
+		this.microtheory = microtheory ;
 	}
 
 	public void setFeature(Object feature, Object value) {
 		inferenceParams.put(feature, value);
-	}
-	
-	public String getNamespace() {
-		return defaultNS ;
 	}
 	
 	/* Get localname reverses the getURI function.
@@ -112,8 +125,10 @@ public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
 	
 	public static String localName(String uri) {
 		CycConstant c = symbolTable.get(uri);
-		if (c==null) return uri.substring(uri.lastIndexOf('/')+1);
-		else return c.name;
+		if (c!=null) return c.name ;
+		if (uri.contains("#"))
+				return uri.substring(uri.lastIndexOf('#')+1);
+		return uri.substring(uri.lastIndexOf('/')+1);
 	}
 	
 	static String encode(String uri) throws Exception {
@@ -130,8 +145,8 @@ public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
 	 * otherwise append the constant to the current base namespace
 	 */
 	
-	String getURI(CycConstant constant) {
-		try {
+	String getURI(CycConstant constant, boolean useRDFURI) {
+		if (useRDFURI) try {
 			// Does this symbol have an associated URI?
 			CycConstant predicate = cyc.find("rdfURI") ;
 			Object obj = cyc.getArg2(predicate, constant) ;
@@ -140,12 +155,22 @@ public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
 			return uri;
 		}
 		catch (Exception e) {}
-		return getNamespace() + constant.name ;
+		return getURI(constant.name) ;
+	}
+	
+	public String getURI(String name) {
+		// This may be a full URL already
+		if (name.contains(":")) return name ;
+		return base + name ;
 	}
 	
 	public Node createNode(Object o) {
+		return createNode(o, true) ;
+	}
+	
+	public Node createNode(Object o, boolean useRDFURI) {
 		if (o instanceof CycConstant)
-			return Node.createURI(getURI((CycConstant) o)) ;
+			return Node.createURI(getURI((CycConstant) o, useRDFURI)) ;
 		else if (o instanceof Integer) 
 			return Node.createLiteral(((Integer) o).toString(), null, XSDDatatype.XSDinteger) ;
 		else if (o instanceof Double) 
@@ -157,10 +182,10 @@ public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
 			if (l.isProperList() && l.size()==3) { // assume (var units value)
 				CycConstant units = (CycConstant) l.second();
 				String value = l.third().toString() ;
-				return  Node.createLiteral(value, null, new BaseDatatype(getURI(units))) ;
+				return  Node.createLiteral(value, null, new BaseDatatype(getURI(units, useRDFURI))) ;
 			}
 			// (var . value) dotted pair
-			else if (!l.isProperList()) return createNode(l.last()) ;
+			else if (!l.isProperList()) return createNode(l.last(), useRDFURI) ;
 		}
 		return Node.createLiteral(o.toString());
 	}
@@ -185,11 +210,12 @@ public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
 		// Cyc names cannot contain underscore
 		if (node.isVariable()) return "?"+node.getName().replaceAll("_", "");
 		else if (node.isURI() && node.getURI().equals(RDF.type.getURI())) return "#$isa";
-		else if (node.isURI() && !node.getURI().startsWith(getNamespace())) {
+		//else if (node.isURI() && !node.getURI().startsWith(base)) {
+		else if (node.isURI() && !node.getURI().startsWith("file:") && !node.getURI().startsWith(base)) {
 			try {
 				Object arg1 = getArg1(cyc.find("rdfURI"), encode(node.getURI())) ;
 				if (arg1!=null) return "#$"+arg1 ;
-				else return node.getURI() ;
+				else return "#$"+localName(node.getURI()); 
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -228,10 +254,42 @@ public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
 			return new CycTripleIterator();
 		}
 		
-		public CycList<Object> find(String q, String graphName) throws Exception {
-			CycFort mt = cyc.getKnownConstantByName(graphName);
-			CycList<Object> query = cyc.makeCycList(q);
-			return cyc.askNewCycQuery(query, mt, inferenceParams);
+		public CycList<Object> query(String q, String graphName) throws Exception {
+			try {
+				// A null graphName represents the empty model
+				if (graphName==null) return null ;
+				CycFort mt = cyc.getKnownConstantByName(graphName) ;
+				CycList<Object> query = cyc.makeCycList(q) ;
+				return cyc.askNewCycQuery(query, mt, inferenceParams) ;
+			}
+			catch (CycApiException e) {
+				return null;
+			}
+		}
+
+		public CycList<Object> queryVariables(String q, String graphName) throws Exception {
+			try {
+				CycFort mt = cyc.getKnownConstantByName(graphName);
+				CycList<Object> query = cyc.makeCycList(q);
+				List<CycVariable> vars = new LinkedList<CycVariable>();
+				queryVars(query,vars);
+				CycList<Object> v = new CycList<Object>(vars);
+				return cyc.queryVariables(v,query, mt, inferenceParams);
+			}
+			catch (CycApiException e) {
+				return null;
+			}
+		}
+
+		private CycList<Object> queryVars(CycList<Object> list, List<CycVariable> vars) {
+			for (int i=0; i<list.size(); i++) {
+				Object obj = list.get(i);
+				if (obj instanceof CycVariable && !vars.contains(obj))
+					vars.add((CycVariable) obj);
+				else if (obj instanceof CycList)
+					queryVars((CycList<Object>) obj, vars);
+			}
+			return null;
 		}
 
 		public int graphBaseSize() {
@@ -247,32 +305,47 @@ public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
 	// The default graph should be the union of these graphs, but just take the first
 	@Override
 	public Graph getDefaultGraph() {
-		if (graphs!=null && graphs.size()>0) {
-			Node n = Node.createURI(graphs.get(0));
-			return new CycGraph(localName(n.getURI()));
-		} 
-		else return new CycGraph(CycAccess.baseKB.toString()) ;
+//		if (graphs!=null && graphs.size()>0) {
+//			Node n = Node.createURI(graphs.get(0));
+//			return new CycGraph(localName(n.getURI()));
+//		} 
+//		else
+		if (microtheory!=null) {
+			return new CycGraph(localName(microtheory));
+		}
+		//return new CycGraph(CycAccess.baseKB.toString()) ;
+		return null ;
 	}
 
 	@Override
 	public Graph getGraph(Node graphNode) {
 		if (graphNode!=null && graphNode.isURI()) return new CycGraph(localName(graphNode.getURI()));
+		if (graphNode.isLiteral()) 
+			return new CycGraph(graphNode.getLiteralValue().toString());
 		return null;
 	}
 
 	@Override
 	public Iterator<Node> listGraphNodes() {
-		return new Iterator<Node>() {
-			ListIterator<String> i = namedGraphs.listIterator();
-			public boolean hasNext() {
-				return i.hasNext();
-			}
-			public Node next() {
-				// return a literal representing the graph name
-				return Node.createURI(((String) i.next()));
-			}
-			public void remove() {}	
-		};
+		CycList<Object> query = cyc.makeCycList(ISA_MT) ;
+		try {
+			final ListIterator<?> l = cyc.askNewCycQuery(query, CycAccess.baseKB, inferenceParams).listIterator() ;	
+			return new Iterator<Node>() {
+				//ListIterator<String> i = namedGraphs.listIterator();
+				public boolean hasNext() {
+					return l.hasNext();
+				}
+				public Node next() {
+					// return a literal representing the graph name
+					//return Node.createURI(((String) i.next()));
+					return lookup((CycList<?>) l.next(), "MT") ;
+				}
+				public void remove() {}	
+			};
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	// graph may not be a variable
@@ -314,4 +387,107 @@ public class CycDatasetGraph extends DatasetGraphBase implements DatasetGraph {
 	public static String cycVar(String var) {
 		return var.replaceAll("_", "-");
 	}
+	
+	/* methods required by GraphStore */
+
+	@Override
+	public void finishRequest() {}
+
+	@Override
+	public void startRequest() {}
+
+	@Override
+	public Dataset toDataset() {
+		return this.new CycDataset();
+	}
+	
+	class CycDataset implements Dataset {
+
+		@Override
+		public DatasetGraph asDatasetGraph() {
+			return CycDatasetGraph.this;
+		}
+
+		@Override
+		public void close() {}
+
+		@Override
+		public boolean containsNamedModel(String uri) {
+			Iterator<Node> graphNodes = CycDatasetGraph.this.listGraphNodes();
+			while (graphNodes.hasNext()) {
+				Node n = graphNodes.next();
+				if (n.getURI().equals(uri)) return true;
+			}
+			return false;
+		}
+
+		@Override
+		public Model getDefaultModel() {
+			Graph g = CycDatasetGraph.this.getDefaultGraph();
+			return ModelFactory.createModelForGraph(g);
+		}
+
+		@Override
+		public Lock getLock() {
+			return CycDatasetGraph.this.getLock();
+		}
+
+		@Override
+		public Model getNamedModel(String uri) {
+			Iterator<Node> graphNodes = CycDatasetGraph.this.listGraphNodes();
+			while (graphNodes.hasNext()) {
+				Node n = graphNodes.next();
+				if (n.getURI().equals(uri)) {
+					Graph g = new CycGraph(localName(n.getURI()));
+					return ModelFactory.createModelForGraph(g);
+				}
+			}
+			return null;
+		}
+		
+		@Override
+		public Iterator<String> listNames() {
+			try {
+				CycList<Object> query = cyc.makeCycList(ISA_MT) ;
+				final ListIterator<?> l = cyc.askNewCycQuery(query, CycAccess.baseKB, inferenceParams).listIterator() ;	
+				return new Iterator<String>() {
+					public boolean hasNext() {
+						return l.hasNext();
+					}
+					public String next() {
+						// return the next graph name
+						return lookupValue((CycList<?>) l.next(), "MT") ;
+					}
+					public void remove() {}	
+				} ;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		
+	}
+	
+	private Node lookup(CycList<?> row, String var) {
+		ListIterator<?> i=row.listIterator() ;
+		while (i.hasNext()) {
+			CycList<?> l = (CycList<?>) i.next();
+			if (variableMatch((CycVariable) l.first(), var)) {
+				return createNode(l.second(), false) ;
+			}
+		}
+		return null;
+	}
+	
+	private String lookupValue(CycList<?> row, String var) {
+		ListIterator<?> i=row.listIterator() ;
+		while (i.hasNext()) {
+			CycList<?> l = (CycList<?>) i.next();
+			if (variableMatch((CycVariable) l.first(), var)) {
+				return l.second().toString() ;
+			}
+		}
+		return null;
+	}
+	
 }

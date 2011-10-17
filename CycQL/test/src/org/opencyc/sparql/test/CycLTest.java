@@ -67,23 +67,23 @@ public class CycLTest {
         cyc.close();
 	}
 	
-	@Test
-	public void optionalTest() throws Exception {
-		String cycl = read(new File("CycL/optional.cycl"));
-		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
-        CycGraph graph = (CycGraph) dsg.getDefaultGraph();
-        CycList<Object> results = graph.find(cycl, SPECIFIC_MICROTHEORY) ;
-        Object[] a = results.toArray();
-        System.out.println(a.length+" results");
-        assertTrue(a.length==12);
-	}
+//	@Test
+//	public void optionalTest() throws Exception {
+//		String cycl = read(new File("test/CycL/optional.cycl"));
+//		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
+//        CycGraph graph = (CycGraph) dsg.getDefaultGraph();
+//        CycList<Object> results = graph.query(cycl, SPECIFIC_MICROTHEORY) ;
+//        Object[] a = results.toArray();
+//        System.out.println(a.length+" results");
+//        assertTrue(a.length==12);
+//	}
 	
 	@Test
 	public void negationTest() throws Exception {
-		String cycl = read(new File("CycL/negation.cycl"));
+		String cycl = read(new File("test/CycL/negation.cycl"));
 		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
         CycGraph graph = (CycGraph) dsg.getDefaultGraph();
-        CycList<Object> results = graph.find(cycl, GENERAL_MICROTHEORY) ;
+        CycList<Object> results = graph.query(cycl, GENERAL_MICROTHEORY) ;
         Object[] a = results.toArray();
         System.out.println(a.length+" results");
         assertTrue(a.length==8);
@@ -92,10 +92,10 @@ public class CycLTest {
 	
 	@Test
 	public void functionTest() throws Exception {
-		String cycl = read(new File("CycL/function.cycl"));
+		String cycl = read(new File("test/CycL/function.cycl"));
 		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
         CycGraph graph = (CycGraph) dsg.getDefaultGraph();
-        CycList<Object> results = graph.find(cycl, SPECIFIC_MICROTHEORY) ;
+        CycList<Object> results = graph.query(cycl, SPECIFIC_MICROTHEORY) ;
         Object[] a = results.toArray();
         System.out.println(a.length+" results");
         assertTrue(a.length==2);
@@ -103,11 +103,11 @@ public class CycLTest {
 	
 	@Test
 	public void ruleTest() throws Exception {
-		String cycl = read(new File("CycL/rule.cycl"));
+		String cycl = read(new File("test/CycL/rule.cycl"));
 		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
 		dsg.setFeature(CycDatasetGraph.MAX_TRANSFORMATION_DEPTH, new Integer(2));
         CycGraph graph = (CycGraph) dsg.getDefaultGraph();
-        CycList<Object> results = graph.find(cycl, SPECIFIC_MICROTHEORY) ;
+        CycList<Object> results = graph.query(cycl, SPECIFIC_MICROTHEORY) ;
         Object[] a = results.toArray();
         System.out.println(a.length+" results");
         assertTrue(a.length==2);

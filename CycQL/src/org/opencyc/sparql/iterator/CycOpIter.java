@@ -16,13 +16,17 @@
 
 package org.opencyc.sparql.iterator;
 
+import java.util.List;
+
 import org.opencyc.cycobject.CycList;
 import org.opencyc.cycobject.CycSymbol;
 import org.opencyc.sparql.CycDatasetGraph;
 import org.opencyc.sparql.CycDatasetGraph.CycGraph;
+import org.opencyc.sparql.CycQueryEngine;
 import org.opencyc.sparql.op.CycOp;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.sparql.core.BasicPattern;
 import com.hp.hpl.jena.sparql.core.DatasetGraph;
 import com.hp.hpl.jena.sparql.engine.ExecutionContext;
@@ -47,9 +51,22 @@ public class CycOpIter extends CycQueryIter {
 			CycGraph graph = null;
 			String mt = null;
 			if (cycOp.getGraphName()==null) {
-				graph = (CycGraph) dsg.getDefaultGraph();
-				//mt = CycDatasetGraph.GENERAL_MICROTHEORY;
-				mt = graph.getGraphName();
+				graph = (CycGraph) dsg.getDefaultGraph() ;
+				Query query = (Query) context.getContext().get(CycQueryEngine.QUERY) ;
+				List<String> graphs = query.getGraphURIs() ;
+				List<String> namedGraphs = query.getNamedGraphURIs() ;
+				
+				// if no FROM clause is specified use the dataset default
+				if (graphs.size()==0) {
+					// if FROM NAMED are specified then the default graph is empty (null)
+					if (namedGraphs.size()==0)
+						mt = graph.getGraphName() ;
+				}
+				else if (graphs.size()==1) {
+					mt = CycDatasetGraph.localName(graphs.get(0)) ;
+				}
+				else throw new Exception("Unable to merge multiple FROM clauses. ") ;
+				query.toString();
 			}
 			// a variable with a known binding (likely set by calling class)
 			else if (cycOp.getGraphName().isVariable()) {
@@ -62,10 +79,11 @@ public class CycOpIter extends CycQueryIter {
 				graph = (CycGraph) dsg.getGraph(cycOp.getGraphName());
 				mt = CycDatasetGraph.localName(cycOp.getGraphName().getURI());
 			}
-			CycList<Object> l = graph.find(cycOp.toString(), mt);
-			iterator = l.iterator();
+			CycList<Object> l = graph.query(cycOp.toString(), mt);
+			if (l!=null) iterator = l.iterator();
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.err.println(e.getMessage()) ;
 		}
 		// otherwise the iterator remains null
 	}

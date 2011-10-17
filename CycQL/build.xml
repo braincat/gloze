@@ -12,12 +12,23 @@
 	<property name="jena.url" value="http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip" />
 	<property name="jvmargs" value="-Dcom.sun.management.jmxremote" />
 
+	<property name="test" location="test" />
+	<property name="testsrc" location="${test}/src" />
+	<property name="testlib" location="test/lib" />
+	<property name="testresults" location="test/results" />
+
+	<property name="junit.url" value="http://cloud.github.com/downloads/KentBeck/junit/junit-4.8.2.jar" />
+	<property name="junit.jar" location="${testlib}/junit.jar" />
+	<property name="junit.testsuite" value="org.opencyc.sparql.test.AllTests" />
+
 	<target name="uninstall">
 		<delete dir="${opencyc}" />
 	</target>
 
 	<target name="clean" depends="uninstall">
 		<delete dir="${tmp}" />
+		<delete dir="${testlib}" />
+		<delete dir="${testresults}" />
 	</target>
 
    <target name="check">
@@ -32,6 +43,9 @@
 		</condition>
 		<condition property="build.exists">
 			<available file="${build}" type="dir" />
+		</condition>
+		<condition property="testlib.exists">
+			<available file="${testlib}" type="dir" />
 		</condition>
 	</target>
 
@@ -121,6 +135,39 @@
 			<jvmarg line="${jvmargs}" />
 			<classpath refid="demo.classpath" />
 		</java>
+	</target>
+
+	<target name="test-dependencies" depends="check" unless="testlib.exists">
+		<mkdir dir="${testlib}" />
+		<get src="${junit.url}" dest="${junit.jar}" skipexisting="true" />
+	</target>
+
+	<path id="test.classpath">
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${junit.jar}" />
+		<pathelement location="${build}"/>
+	</path>
+
+	<target name="test-compile" depends="test-dependencies">
+		<ant target="compile" />
+		<javac srcdir="${testsrc}" destdir="${build}" includeantruntime="false">
+			<classpath refid="test.classpath" />
+		</javac>
+	</target>
+	
+	<target name="test-setup">
+		<ant target="demo-setup" />
+	</target>
+
+	<target name="test-run" depends="test-compile, test-setup">
+		<mkdir dir="${testresults}" />
+		<junit printsummary="true">
+			<classpath refid="test.classpath" />
+			<formatter type="plain" />
+			<test todir="${testresults}" name="${junit.testsuite}" outfile="test-results" />
+		</junit>
 	</target>
 
 </project>

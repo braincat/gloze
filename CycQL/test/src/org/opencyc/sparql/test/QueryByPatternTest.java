@@ -108,11 +108,37 @@ public class QueryByPatternTest {
 		FunctionRegistry.get().put(EXPONENT_FN, funFactory) ;
 	}
 
+	/** Simple select query in the default namespace */
+	
+	@Test
+	public void selectTest() throws Exception {
+		String sparql = read(new File("test/sparql/select.rq"));
+		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
+		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
+        ResultSet results = engine.execSelect();
+        while (results.hasNext()) results.nextBinding();
+        assertTrue(results.getRowNumber()==1);
+	}
+	
+	/** Select query in a specified namespace */
+	
+	@Test
+	public void select1Test() throws Exception {
+		String sparql = read(new File("test/sparql/select1.rq"));
+		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
+		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
+        ResultSet results = engine.execSelect();
+        while (results.hasNext()) results.nextBinding();
+        assertTrue(results.getRowNumber()==0);
+	}
+	
 	@Test
 	public void optionalTest() throws Exception {
-		String sparql = read(new File("sparql/optional.rq"));
+		String sparql = read(new File("test/sparql/optional.rq"));
 		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
-		CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "");
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
 		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
         ResultSet results = engine.execSelect();
         while (results.hasNext()) results.nextBinding();
@@ -121,9 +147,9 @@ public class QueryByPatternTest {
 	
 	@Test
 	public void negationTest() throws Exception {
-		String sparql = read(new File("sparql/negation.rq"));
+		String sparql = read(new File("test/sparql/negation.rq"));
 		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
-		CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "");
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
 		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
         ResultSet results = engine.execSelect();
         while (results.hasNext()) results.nextBinding();
@@ -132,9 +158,9 @@ public class QueryByPatternTest {
 
 	@Test
 	public void negation1Test() throws Exception {
-		String sparql = read(new File("sparql/negation1.rq"));
+		String sparql = read(new File("test/sparql/negation1.rq"));
 		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
-		CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "");
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
 		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
         ResultSet results = engine.execSelect();
         while (results.hasNext()) results.nextBinding();
@@ -143,9 +169,9 @@ public class QueryByPatternTest {
 
 	@Test
 	public void negation2Test() throws Exception {
-		String sparql = read(new File("sparql/negation2.rq"));
+		String sparql = read(new File("test/sparql/negation2.rq"));
 		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
-		CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "");
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
 		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
         ResultSet results = engine.execSelect();
         while (results.hasNext()) results.nextBinding();
@@ -154,9 +180,9 @@ public class QueryByPatternTest {
 	
 	@Test
 	public void functionTest() throws Exception {
-		String sparql = read(new File("sparql/function.rq"));
+		String sparql = read(new File("test/sparql/function.rq"));
 		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
-		CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "");
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
 		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
         ResultSet results = engine.execSelect();
         while (results.hasNext()) results.nextBinding();
@@ -165,9 +191,9 @@ public class QueryByPatternTest {
 	
 	@Test
 	public void ruleTest() throws Exception {
-		String sparql = read(new File("sparql/function.rq"));
+		String sparql = read(new File("test/sparql/rule.rq"));
 		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
-		CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "");
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
 		dsg.setFeature(CycDatasetGraph.MAX_TRANSFORMATION_DEPTH, new Integer(2));
 		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
         ResultSet results = engine.execSelect();
@@ -176,11 +202,91 @@ public class QueryByPatternTest {
         assertTrue(results.getRowNumber()==2);
 	}
 	
+	/** test that variables in expressions are substituted */
+	
+	@Test
+	public void rule1Test() throws Exception {
+		String sparql = read(new File("test/sparql/rule1.rq"));
+		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
+		dsg.setFeature(CycDatasetGraph.MAX_TRANSFORMATION_DEPTH, new Integer(2));
+		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
+        ResultSet results = engine.execSelect();
+        while (results.hasNext()) results.nextBinding();
+        //System.out.println(results.getRowNumber());
+        assertTrue(results.getRowNumber()==2);
+	}
+	
+	/** test that graph clauses are evaluated */
+	
+	@Test
+	public void graphTest() throws Exception {
+		String sparql = read(new File("test/sparql/graph.rq"));
+		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
+		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
+        ResultSet results = engine.execSelect();
+        while (results.hasNext()) results.nextBinding();
+        assertTrue(results.getRowNumber()==8);
+	}
+
+	/** test that when FROM NAMED clauses are specified without FROM, then the default namespace is empty */
+	
+	@Test
+	public void graph1Test() throws Exception {
+		String sparql = read(new File("test/sparql/graph1.rq"));
+		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
+		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
+        ResultSet results = engine.execSelect();
+        while (results.hasNext()) results.nextBinding();
+        assertTrue(results.getRowNumber()==0);
+	}
+	
+	/** test that variable graph enumerates over FROM NAMED */
+
+	@Test
+	public void graph2Test() throws Exception {
+		String sparql = read(new File("test/sparql/graph2.rq"));
+		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
+		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
+        ResultSet results = engine.execSelect();
+        while (results.hasNext()) results.nextBinding();
+        assertTrue(results.getRowNumber()==2);
+	}
+	
+	/** test that variable graph with no FROM NAMED enumerates over dataset named graphs */
+	
+	@Test
+	public void graph3Test() throws Exception {
+		String sparql = read(new File("test/sparql/graph3.rq"));
+		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
+		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
+        ResultSet results = engine.execSelect();
+        while (results.hasNext()) results.nextBinding();
+        assertTrue(results.getRowNumber()==0);
+	}
+	
+	/** check that missing FROM NAMED doesn't result in empty named graph set */
+	
+	@Test
+	public void graph4Test() throws Exception {
+		String sparql = read(new File("test/sparql/graph4.rq"));
+		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
+		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
+        ResultSet results = engine.execSelect();
+        while (results.hasNext()) results.nextBinding();
+        assertTrue(results.getRowNumber()==1);
+	}
+	
 	@Test
 	public void dogsTest() throws Exception {
-		String sparql = read(new File("sparql/dogs.rq"));
+		String sparql = read(new File("test/sparql/dogs.rq"));
 		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
-		CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "");
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
 		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
         ResultSet results = engine.execSelect();
         while (results.hasNext()) results.nextBinding();
@@ -190,12 +296,14 @@ public class QueryByPatternTest {
 	
 	@Test
 	public void dogs1Test() throws Exception {
-		String sparql = read(new File("sparql/dogs1.rq"));
+		String sparql = read(new File("test/sparql/dogs1.rq"));
 		Query query = QueryFactory.create(sparql,Syntax.syntaxARQ);
-		CycDatasetGraph dsg = new CycDatasetGraph(query, cyc, "");
+		CycDatasetGraph dsg = new CycDatasetGraph(cyc);
 		QueryExecution engine = QueryExecutionFactory.create(query, new DatasetImpl(dsg)) ;
         ResultSet results = engine.execSelect();
         while (results.hasNext()) results.nextBinding();
         assertTrue(results.getRowNumber()==167);
 	}
+	
+	
 }
