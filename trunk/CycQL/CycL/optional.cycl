@@ -1,5 +1,5 @@
 (#$and 
   (#$orbits ?PLANET #$TheSun) 
   (#$isa ?PLANET #$Planet) 
-  (#$orbits ?MOON ?PLANET))
+  (#$or (#$orbits ?MOON ?PLANET) #$True)
 )

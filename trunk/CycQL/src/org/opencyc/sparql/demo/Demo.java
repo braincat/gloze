@@ -71,73 +71,73 @@ public class Demo {
 		}	
 	}
 	
-	void assertion(String assertion) throws Exception {
+	static void assertion(String assertion, CycAccess cyc, CycFort mt) throws Exception {
 		CycList<?> gaf = cyc.makeCycList(assertion);
-		cyc.assertGaf(gaf, microtheory);
+		cyc.assertGaf(gaf, mt);
 	}
 
-	void setup() throws Exception {
+	static public void setup(CycAccess cyc, CycFort mt) throws Exception {
 
 		// Mercury
-		assertion("(#$orbits #$PlanetMercury #$TheSun)");
-		assertion("(#$isa #$PlanetMercury #$ThreeDimensionalThing)");		
-		assertion("(#$orbitalPeriod #$PlanetMercury (#$DaysDuration 88))");
+		assertion("(#$orbits #$PlanetMercury #$TheSun)",cyc,mt);
+		assertion("(#$isa #$PlanetMercury #$ThreeDimensionalThing)",cyc,mt);		
+		assertion("(#$orbitalPeriod #$PlanetMercury (#$DaysDuration 88))",cyc,mt);
 
 		// Venus
-		assertion("(#$orbits #$PlanetVenus #$TheSun)");
-		assertion("(#$isa #$PlanetVenus #$ThreeDimensionalThing)");
-		assertion("(#$orbitalPeriod #$PlanetVenus (#$DaysDuration 225))");
+		assertion("(#$orbits #$PlanetVenus #$TheSun)",cyc,mt);
+		assertion("(#$isa #$PlanetVenus #$ThreeDimensionalThing)",cyc,mt);
+		assertion("(#$orbitalPeriod #$PlanetVenus (#$DaysDuration 225))",cyc,mt);
 
 		// Earth
-		assertion("(#$orbits #$PlanetEarth #$TheSun)");
-		assertion("(#$isa #$PlanetEarth #$ThreeDimensionalThing)");
-		assertion("(#$orbitalPeriod #$PlanetEarth (#$DaysDuration 365))");
-		assertion("(#$orbits #$MoonOfEarth #$PlanetEarth)");
+		assertion("(#$orbits #$PlanetEarth #$TheSun)",cyc,mt);
+		assertion("(#$isa #$PlanetEarth #$ThreeDimensionalThing)",cyc,mt);
+		assertion("(#$orbitalPeriod #$PlanetEarth (#$DaysDuration 365))",cyc,mt);
+		assertion("(#$orbits #$MoonOfEarth #$PlanetEarth)",cyc,mt);
 
 		// Mars
-		assertion("(#$orbits #$PlanetMars #$TheSun)");
-		assertion("(#$isa #$PlanetMars #$ThreeDimensionalThing)");
-		assertion("(#$orbitalPeriod #$PlanetMars (#$DaysDuration 687))");
-		assertion("(#$orbits #$Deimos-MoonOfMars #$PlanetMars)");
-		assertion("(#$orbits #$Phobos-MoonOfMars #$PlanetMars)");
+		assertion("(#$orbits #$PlanetMars #$TheSun)",cyc,mt);
+		assertion("(#$isa #$PlanetMars #$ThreeDimensionalThing)",cyc,mt);
+		assertion("(#$orbitalPeriod #$PlanetMars (#$DaysDuration 687))",cyc,mt);
+		assertion("(#$orbits #$Deimos-MoonOfMars #$PlanetMars)",cyc,mt);
+		assertion("(#$orbits #$Phobos-MoonOfMars #$PlanetMars)",cyc,mt);
 
 		// Jupiter
-		assertion("(#$orbits #$PlanetJupiter #$TheSun)");
-		assertion("(#$isa #$PlanetJupiter #$ThreeDimensionalThing)");
-		assertion("(#$orbitalPeriod #$PlanetJupiter (#$DaysDuration 4329))");
-		assertion("(#$orbits #$Io-MoonOfJupiter #$PlanetJupiter)");
-		assertion("(#$orbits #$Europa-MoonOfJupiter #$PlanetJupiter)");
-		assertion("(#$orbits #$Ganymede-MoonOfJupiter #$PlanetJupiter)");
-		assertion("(#$orbits #$Callisto-MoonOfJupiter #$PlanetJupiter)");
+		assertion("(#$orbits #$PlanetJupiter #$TheSun)",cyc,mt);
+		assertion("(#$isa #$PlanetJupiter #$ThreeDimensionalThing)",cyc,mt);
+		assertion("(#$orbitalPeriod #$PlanetJupiter (#$DaysDuration 4329))",cyc,mt);
+		assertion("(#$orbits #$Io-MoonOfJupiter #$PlanetJupiter)",cyc,mt);
+		assertion("(#$orbits #$Europa-MoonOfJupiter #$PlanetJupiter)",cyc,mt);
+		assertion("(#$orbits #$Ganymede-MoonOfJupiter #$PlanetJupiter)",cyc,mt);
+		assertion("(#$orbits #$Callisto-MoonOfJupiter #$PlanetJupiter)",cyc,mt);
 
 		// Saturn
-		assertion("(#$orbits #$PlanetSaturn #$TheSun)");
-		assertion("(#$isa #$PlanetSaturn #$ThreeDimensionalThing)");
-		assertion("(#$orbitalPeriod #$PlanetSaturn (#$DaysDuration 10753))");
-		assertion("(#$orbits #$Titan-MoonOfSaturn #$PlanetSaturn)");
-		assertion("(#$orbits #$Enceladus-MoonOfSaturn #$PlanetSaturn)");
+		assertion("(#$orbits #$PlanetSaturn #$TheSun)",cyc,mt);
+		assertion("(#$isa #$PlanetSaturn #$ThreeDimensionalThing)",cyc,mt);
+		assertion("(#$orbitalPeriod #$PlanetSaturn (#$DaysDuration 10753))",cyc,mt);
+		assertion("(#$orbits #$Titan-MoonOfSaturn #$PlanetSaturn)",cyc,mt);
+		assertion("(#$orbits #$Enceladus-MoonOfSaturn #$PlanetSaturn)",cyc,mt);
 
 		// Uranus
-		assertion("(#$orbits #$PlanetUranus #$TheSun)");
-		assertion("(#$isa #$PlanetUranus #$ThreeDimensionalThing)");
-		assertion("(#$orbitalPeriod #$PlanetUranus (#$DaysDuration 30660))");
+		assertion("(#$orbits #$PlanetUranus #$TheSun)",cyc,mt);
+		assertion("(#$isa #$PlanetUranus #$ThreeDimensionalThing)",cyc,mt);
+		assertion("(#$orbitalPeriod #$PlanetUranus (#$DaysDuration 30660))",cyc,mt);
 
 		// Neptune
-		assertion("(#$orbits #$PlanetNeptune #$TheSun)");
-		assertion("(#$isa #$PlanetNeptune #$ThreeDimensionalThing)");
-		assertion("(#$orbitalPeriod #$PlanetNeptune (#$DaysDuration 60152))");
+		assertion("(#$orbits #$PlanetNeptune #$TheSun)",cyc,mt);
+		assertion("(#$isa #$PlanetNeptune #$ThreeDimensionalThing)",cyc,mt);
+		assertion("(#$orbitalPeriod #$PlanetNeptune (#$DaysDuration 60152))",cyc,mt);
 
 		// Pluto
-		assertion("(#$orbits #$PlanetPluto #$TheSun)");
-		assertion("(#$isa #$PlanetPluto #$ThreeDimensionalThing)");
-		assertion("(#$orbitalPeriod #$PlanetPluto (#$DaysDuration 90739))");
-		assertion("(#$orbits #$Charon-MoonOfPluto #$PlanetPluto)");
-		assertion("(#$orbits #$Nix-MoonOfPluto #$PlanetPluto)");
-		assertion("(#$orbits #$Hydra-MoonOfPluto #$PlanetPluto)");
+		assertion("(#$orbits #$PlanetPluto #$TheSun)",cyc,mt);
+		assertion("(#$isa #$PlanetPluto #$ThreeDimensionalThing)",cyc,mt);
+		assertion("(#$orbitalPeriod #$PlanetPluto (#$DaysDuration 90739))",cyc,mt);
+		assertion("(#$orbits #$Charon-MoonOfPluto #$PlanetPluto)",cyc,mt);
+		assertion("(#$orbits #$Nix-MoonOfPluto #$PlanetPluto)",cyc,mt);
+		assertion("(#$orbits #$Hydra-MoonOfPluto #$PlanetPluto)",cyc,mt);
 		
 		// create constant 'orbitalRadius'
 	    CycConstant orbitalRadius = cyc.findOrCreate("orbitalRadius");
-	    cyc.assertIsa(orbitalRadius, cyc.find("BinaryPredicate"), microtheory);
+	    cyc.assertIsa(orbitalRadius, cyc.find("BinaryPredicate"), mt);
 		
 		// rules
 		assertion(
@@ -147,11 +147,15 @@ public class Demo {
 			"    (#$evaluate ?RADIUS (#$ExponentFn (#$QuotientFn ?PERIOD 365) (#$QuotientFn 2 3) )) "+
 			"  )"+
 			"  (#$orbitalRadius ?BODY (#$AstronomicalUnit ?RADIUS)))"
-		);
+			,cyc,mt);
 		
 	}
+	
+	void setup() throws Exception {
+		setup(cyc, microtheory);
+	}
 
-	void close() {
+	public void close() {
 		cyc.close();
 	}
 

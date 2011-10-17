@@ -1,0 +1,12 @@
+PREFIX : <>
+
+SELECT ?planet ?orbital_period
+WHERE {
+	GRAPH ?g { 
+		?planet a :Planet ; 
+			:orbits :TheSun ;
+			:orbitalPeriod ?orbital_period
+	}
+	?planet a :DwarfPlanet
+}
+LIMIT 1

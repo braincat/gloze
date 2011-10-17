@@ -1,0 +1,7 @@
+PREFIX : <>
+
+SELECT ?planet
+WHERE {
+	?planet a :Planet .
+	?planet a :DwarfPlanet
+}

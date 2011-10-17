@@ -104,23 +104,29 @@ public abstract class CycOp {
     	return "?"+var;
     }
     
+    protected static String function(String fn, ExprFunction f, Map<String,String> natMap, Binding binding, Context context) {
+    	StringBuffer str = new StringBuffer();
+    	str.append("("+fn) ;
+    	for (Expr e : f.getArgs()) {
+    		str.append(' ');
+    		str.append(expression(e,natMap,binding,context));
+    	}
+    	str.append(")");
+    	return str.toString();
+    }
+    
 	public static String expression(Expr exp, Map<String,String> natMap, Binding binding, Context context) {
     	if (exp.isFunction() && exp.getFunction().getFunctionIRI()!=null) {
         	ExprFunction f = exp.getFunction();
         	String fn = f.getFunctionIRI();
-        	if (fn.startsWith(CYC_FN_NAMESPACE)) fn = "#$"+fn.substring(CYC_FN_NAMESPACE.length());
-        	// otherwise assume this is a NAT to XSD datatype function
-        	StringBuffer str = new StringBuffer();
-        	str.append("("+fn) ;
-        	List<Expr> args = f.getArgs();
-        	for (Expr e : args) {
-        		str.append(' ');
-        		str.append(expression(e,natMap,binding,context));
+        	if (fn.startsWith(CYC_FN_NAMESPACE)) {
+        		fn = "#$"+fn.substring(CYC_FN_NAMESPACE.length());
+        		return function(fn,f,natMap,binding,context);
         	}
-        	str.append(")");
-        	String x = str.toString();
-        	if (natMap!=null && natMap.containsKey(x)) return natMap.get(x);
-        	else return x;
+        	// otherwise assume this is a NAT to XSD datatype function
+        	String str = function(fn,f,natMap,binding,context);
+        	if (natMap!=null && natMap.containsKey(str)) return natMap.get(str);
+        	else return str;
     	}
     	else if (exp.isFunction()) {
     		// currently only support for functions that coerce NATs to an XSD datatype

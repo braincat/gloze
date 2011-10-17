@@ -16,14 +16,16 @@
 
 package org.opencyc.sparql.iterator;
 
+import org.opencyc.sparql.CycDatasetGraph;
+
 import com.hp.hpl.jena.sparql.core.Quad;
 import com.hp.hpl.jena.sparql.engine.ExecutionContext;
-import com.hp.hpl.jena.sparql.engine.QueryIterator;
 import com.hp.hpl.jena.sparql.engine.binding.Binding;
 import com.hp.hpl.jena.sparql.engine.binding.BindingMap;
 
 /**
  * A simple query iterator that iterates solutions to single quads.
+ * Quads appear in named graph patterns (NGPs) defined by GRAPH clauses.
  * @see org.opencyc.sparql.CycStageGeneratorByQuad.QueryIterQuadPattern
  * 
  * @author stevebattle.me
@@ -33,11 +35,12 @@ public class QueryIterByQuad extends QueryIterBase {
 	Quad quad;
 	Binding binding ;
 	
-	public QueryIterByQuad(QueryIterator input, Quad quad, Binding binding, ExecutionContext context) {
+	public QueryIterByQuad(Quad quad, Binding binding, ExecutionContext context) {
 		super(context) ;
 		this.binding = binding ;
 		this.quad = substitute(quad, binding) ;
-		this.iterator = context.getDataset().find(quad) ;
+		CycDatasetGraph dsg = (CycDatasetGraph) context.getDataset() ;
+		this.iterator = dsg.find(this.quad) ;
 	}
 	
 	@Override

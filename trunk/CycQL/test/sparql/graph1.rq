@@ -1,0 +1,12 @@
+PREFIX : <>
+
+SELECT ?planet ?orbital_period
+FROM NAMED :UniverseDataMt
+WHERE {
+	GRAPH :UniverseDataMt { 
+		?planet a :Planet ; 
+			:orbits :TheSun ;
+			:orbitalPeriod ?orbital_period
+	}
+	?planet a :DwarfPlanet
+}

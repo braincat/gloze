@@ -62,6 +62,9 @@ Removes the build (build) and installed source (opencyc-2.0/src) but doesn't del
 * ant clean
 Deletes downloaded files (tmp), libraries (opencyc-2.0/lib), and merged source files (opencyc-2.0/src)
 
+Cyc SPARQL adapter source code in directory sparql.
+Demo query (planets.rq) in 'sparql' directory
+
 == Demo ==
 
 The demos are set-up by running demo-setup. This makes various additional assertions required below.
@@ -73,7 +76,10 @@ $ ant demo-setup
 
 $ ant -Dquery="optional.rq" demo-run
 
-Create a planetary system, then query it to discover the planets and their moons. The sparql query is as follows. The default-graph is set to UniverseDataMt (overriding the default default-graph BaseKB). The optional clause selects any moons of the planet. SPARQL is able to match triples against Cyc binary predicates. The Cyc constants returned are represented as URIs. For notational convenience, Cyc terms are defined relative to the document base (the empty namespace preceding the colon). Where defined, an rdf URI is used in preference to the Cyc term. In the example below, many planets define an equivalent dbpedia URI.
+Create a planetary system, then query it to discover the planets and their moons. The sparql query is as follows. The default-graph is UniverseDataMt. 
+The optional clause selects any moons of the planet. SPARQL is able to match triples against Cyc binary predicates. 
+The Cyc constants returned are represented as URIs. For notational convenience, Cyc terms are defined relative to the document base (the empty namespace preceding the colon). 
+Where defined, an rdf URI is used in preference to the Cyc term. In the example below, many planets define an equivalent dbpedia URI.
 
 The following CycL assertions have been made in 'UniverseDataMt' (in demo-setup).
 
@@ -130,26 +136,26 @@ WHERE {
 
 The results are as follows. Note Cyc constants defined relative to the base, e.g. :PlanetEarth, and the use of RDF URIs, e.g. <http://dbpedia.org/resource/Pluto>.
 
-     [java] ----------------------------------------------------------------------------
-     [java] | planet                                         | moon                    |
-     [java] ============================================================================
-     [java] | :PlanetEarth                                   | :MoonOfEarth            |
-     [java] | <http://dbpedia.org/resource/Pluto>            | :Charon-MoonOfPluto     |
-     [java] | <http://dbpedia.org/resource/Pluto>            | :Nix-MoonOfPluto        |
-     [java] | <http://dbpedia.org/resource/Pluto>            | :Hydra-MoonOfPluto      |
-     [java] | <http://dbpedia.org/resource/Uranus>           |                         |
-     [java] | <http://dbpedia.org/resource/Jupiter>          | :Io-MoonOfJupiter       |
-     [java] | <http://dbpedia.org/resource/Jupiter>          | :Europa-MoonOfJupiter   |
-     [java] | <http://dbpedia.org/resource/Jupiter>          | :Ganymede-MoonOfJupiter |
-     [java] | <http://dbpedia.org/resource/Jupiter>          | :Callisto-MoonOfJupiter |
-     [java] | <http://dbpedia.org/resource/Neptune>          |                         |
-     [java] | <http://dbpedia.org/resource/Saturn>           | :Titan-MoonOfSaturn     |
-     [java] | <http://dbpedia.org/resource/Saturn>           | :Enceladus-MoonOfSaturn |
-     [java] | <http://dbpedia.org/resource/Venus>            |                         |
-     [java] | <http://dbpedia.org/resource/Mercury_(planet)> |                         |
-     [java] | <http://dbpedia.org/resource/Mars>             | :Deimos-MoonOfMars      |
-     [java] | <http://dbpedia.org/resource/Mars>             | :Phobos-MoonOfMars      |
-     [java] ----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+| planet                                         | moon                    |
+============================================================================
+| <http://dbpedia.org/resource/Mercury_(planet)> |                         |
+| <http://dbpedia.org/resource/Venus>            |                         |
+| :PlanetEarth                                   |                         |
+| <http://dbpedia.org/resource/Mars>             | :Deimos-MoonOfMars      |
+| <http://dbpedia.org/resource/Mars>             | :Phobos-MoonOfMars      |
+| <http://dbpedia.org/resource/Jupiter>          | :Io-MoonOfJupiter       |
+| <http://dbpedia.org/resource/Jupiter>          | :Europa-MoonOfJupiter   |
+| <http://dbpedia.org/resource/Jupiter>          | :Ganymede-MoonOfJupiter |
+| <http://dbpedia.org/resource/Jupiter>          | :Callisto-MoonOfJupiter |
+| <http://dbpedia.org/resource/Saturn>           | :Titan-MoonOfSaturn     |
+| <http://dbpedia.org/resource/Saturn>           | :Enceladus-MoonOfSaturn |
+| <http://dbpedia.org/resource/Uranus>           |                         |
+| <http://dbpedia.org/resource/Neptune>          |                         |
+| <http://dbpedia.org/resource/Pluto>            | :Charon-MoonOfPluto     |
+| <http://dbpedia.org/resource/Pluto>            | :Nix-MoonOfPluto        |
+| <http://dbpedia.org/resource/Pluto>            | :Hydra-MoonOfPluto      |
+----------------------------------------------------------------------------
 
 === Demo: negation.rq ===
 
@@ -157,9 +163,8 @@ $ ant -Dquery="negation.rq" demo-run
 
 This example filters the planets resulting from the previous example by eliminating Dwarf planets (i.e. Pluto). This demonstrates the use of negation using 'FILTER NOT EXISTS'.
 
-This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPlanet) in CurrentWorldDataCollectorMt-NonHomocentric.
-Note that this is a superset of UniverseDataMt, containing all the assertions of the latter in addition to the assertion above.
-It also makes use of additional assertions in UniverseDataMt that define the orbital periods of the planets:
+This makes use of the additional CycL assertion: (#$isa #$PlanetPluto #$DwarfPlanet).
+It also makes use of additional assertions that define the orbital periods of the planets:
 
 		(#$orbitalPeriod #$PlanetMercury (#$DaysDuration 88))
 		(#$orbitalPeriod #$PlanetVenus (#$DaysDuration 225))
@@ -176,7 +181,6 @@ The SPARQL is as follows.
 PREFIX : <>
 
 SELECT ?planet ?orbital_period
-FROM :CurrentWorldDataCollectorMt-NonHomocentric
 WHERE {
 	?planet a :Planet ; 
 		:orbits :TheSun ;
@@ -194,18 +198,18 @@ This is compiled into the following CycL query for evaluation. The SPARQL adapte
 
 The results are as follows:
 
-     [java] ---------------------------------------------------------------------------
-     [java] | planet                                         | orbital_period         |
-     [java] ===========================================================================
-     [java] | <http://dbpedia.org/resource/Mercury_(planet)> | "88"^^:DaysDuration    |
-     [java] | <http://dbpedia.org/resource/Venus>            | "225"^^:DaysDuration   |
-     [java] | :PlanetEarth                                   | "365"^^:DaysDuration   |
-     [java] | <http://dbpedia.org/resource/Mars>             | "687"^^:DaysDuration   |
-     [java] | <http://dbpedia.org/resource/Jupiter>          | "4329"^^:DaysDuration  |
-     [java] | <http://dbpedia.org/resource/Saturn>           | "10753"^^:DaysDuration |
-     [java] | <http://dbpedia.org/resource/Uranus>           | "30660"^^:DaysDuration |
-     [java] | <http://dbpedia.org/resource/Neptune>          | "60152"^^:DaysDuration |
-     [java] ---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+| planet                                         | orbital_period         |
+===========================================================================
+| <http://dbpedia.org/resource/Mercury_(planet)> | "88"^^:DaysDuration    |
+| <http://dbpedia.org/resource/Venus>            | "225"^^:DaysDuration   |
+| :PlanetEarth                                   | "365"^^:DaysDuration   |
+| <http://dbpedia.org/resource/Mars>             | "687"^^:DaysDuration   |
+| <http://dbpedia.org/resource/Jupiter>          | "4329"^^:DaysDuration  |
+| <http://dbpedia.org/resource/Saturn>           | "10753"^^:DaysDuration |
+| <http://dbpedia.org/resource/Uranus>           | "30660"^^:DaysDuration |
+| <http://dbpedia.org/resource/Neptune>          | "60152"^^:DaysDuration |
+---------------------------------------------------------------------------
 
 Observe that the type of the orbital period, represented in Cyc as a Non_Atomic Term (NAT), has been preserved in the output as a custom datatype.
 
@@ -218,7 +222,7 @@ $ ant -Dquery="graph.rq" demo-run
 
 This example highlights the use of the SPARQL named graph mechanism to select a specific Cyc micro-theory. 
 This is similar to the previous example (and has the same result-set), but the planetary information is obtained from the specific micro-theory, 'UniverseDataMt',  it was asserted in. 
-However, the negation has to be performed in the 'CurrentWorldDataCollectorMt-NonHomocentric' (default) micro-theory, as this triple doesn't exist at all in the UniverseDataMt micro-theory.
+However, the negation has to be performed in the 'MtSpace' (default) micro-theory, as this triple doesn't exist at all in the UniverseDataMt micro-theory.
 
 PREFIX : <>
 
@@ -275,12 +279,12 @@ This query is, for the most part, compiled into the CycL below, with only the re
 
 In this case we use the nat:Double function to cast the orbital period into a double value that could be used in calculations.
 
-     [java] -------------------------------------------------------------
-     [java] | planet                             | AUs                  |
-     [java] =============================================================
-     [java] | :PlanetEarth                       | 1.0e0                |
-     [java] | <http://dbpedia.org/resource/Mars> | 1.5244361831950344e0 |
-     [java] -------------------------------------------------------------
+-------------------------------------------------------------------------
+| planet                             | AUs                              |
+=========================================================================
+| :PlanetEarth                       | "1.0"^^xsd:double                |
+| <http://dbpedia.org/resource/Mars> | "1.5244361831950344"^^xsd:double |
+-------------------------------------------------------------------------
 
 === Demo: rule.rq ===
 
@@ -321,12 +325,12 @@ This is compiled into the following CycL:
 	(#$equals ?orbital-radius (??var0 ?var1))
 	(#$lessThan 0.725 ?var1)(#$lessThan ?var1 3.0))
 
-     [java] --------------------------------------------------------------------------------
-     [java] | planet                             | orbital_radius                          |
-     [java] ================================================================================
-     [java] | :PlanetEarth                       | "1.0"^^:AstronomicalUnit                |
-     [java] | <http://dbpedia.org/resource/Mars> | "1.5244361831950344"^^:AstronomicalUnit |
-     [java] --------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+| planet                             | orbital_radius                          |
+================================================================================
+| :PlanetEarth                       | "1.0"^^:AstronomicalUnit                |
+| <http://dbpedia.org/resource/Mars> | "1.5244361831950344"^^:AstronomicalUnit |
+--------------------------------------------------------------------------------
 
 === Guide to the Code ===
 

@@ -48,11 +48,11 @@ public class DemoCycL extends Demo {
 		
         long time = System.currentTimeMillis();
         CycGraph graph = (CycGraph) dsg.getDefaultGraph();
-        CycList<Object> results = graph.find(query, microtheory) ;
+        CycList<Object> results = graph.queryVariables(query, microtheory) ;
         time = System.currentTimeMillis() - time;
         
         System.out.println("\nRESULTS\n");
-        System.out.println(results.toPrettyEscapedCyclifiedString("\t"));
+        if (results!=null) System.out.println(results.toPrettyEscapedCyclifiedString("\t"));
         System.out.println("\nEvaluation time: " + time + " milliseconds");
 
         System.exit(-1);
