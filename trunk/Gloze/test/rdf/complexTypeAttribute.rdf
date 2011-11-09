@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:ns2="http://example.org/def#"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:eg="http://example.org/"
+    xmlns:xs_="http://www.w3.org/2001/XMLSchema#">
+  <rdf:Description rdf:about="">
+    <eg:attribute>
+      <eg:Attribute>
+        <ns2:foobar rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >fubar</ns2:foobar>
+        <eg:foobar rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >foobar</eg:foobar>
+      </eg:Attribute>
+    </eg:attribute>
+  </rdf:Description>
+</rdf:RDF>

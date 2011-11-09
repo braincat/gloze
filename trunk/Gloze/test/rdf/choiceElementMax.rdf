@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:ns2="http://example.org/def#"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:ns1="http://example.org/"
+    xmlns:xs_="http://www.w3.org/2001/XMLSchema#">
+  <rdf:Description rdf:about="">
+    <ns1:elementMax>
+      <rdf:Seq rdf:nodeID="A0">
+        <rdf:li>
+          <rdf:Statement>
+            <rdf:subject rdf:nodeID="A0"/>
+            <rdf:predicate rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
+            <rdf:object>1</rdf:object>
+          </rdf:Statement>
+        </rdf:li>
+        <rdf:li>
+          <rdf:Statement>
+            <rdf:subject rdf:nodeID="A0"/>
+            <rdf:predicate rdf:resource="foo"/>
+            <rdf:object rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >foobar</rdf:object>
+          </rdf:Statement>
+        </rdf:li>
+        <rdf:li>
+          <rdf:Statement>
+            <rdf:subject rdf:nodeID="A0"/>
+            <rdf:predicate rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
+            <rdf:object>2</rdf:object>
+          </rdf:Statement>
+        </rdf:li>
+        <rdf:li>
+          <rdf:Statement>
+            <rdf:subject rdf:nodeID="A0"/>
+            <rdf:predicate rdf:resource="foo"/>
+            <rdf:object rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >foobar</rdf:object>
+          </rdf:Statement>
+        </rdf:li>
+        <rdf:li>
+          <rdf:Statement>
+            <rdf:subject rdf:nodeID="A0"/>
+            <rdf:predicate rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
+            <rdf:object>3</rdf:object>
+          </rdf:Statement>
+        </rdf:li>
+        <rdf:value>3</rdf:value>
+        <ns1:foo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >foobar</ns1:foo>
+        <rdf:value>1</rdf:value>
+        <rdf:value>2</rdf:value>
+      </rdf:Seq>
+    </ns1:elementMax>
+  </rdf:Description>
+</rdf:RDF>

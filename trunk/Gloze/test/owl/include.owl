@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:ns1="http://example.org/unqualified#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:tns="http://example.org/"
+    xmlns:xs_="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="http://example.org/include.owl">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="subschema/included.owl"/>
+    <owl:imports rdf:resource="subschema/example.owl"/>
+  </owl:Ontology>
+  <owl:Class rdf:about="extension">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:minCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="foo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >2</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="foo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="foo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </owl:intersectionOf>
+  </owl:Class>
+  <owl:Class rdf:about="restriction">
+    <rdfs:subClassOf rdf:resource="ComplexTypeSequence"/>
+    <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="foo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="foo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </owl:intersectionOf>
+  </owl:Class>
+  <owl:Class rdf:about="group">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty rdf:resource="unqualified#foo"/>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:allValuesFrom>
+          <owl:Class>
+            <owl:intersectionOf>
+              <rdf:List>
+                <rdf:first>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="unqualified#name"/>
+                    <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                    >1</owl:maxCardinality>
+                  </owl:Restriction>
+                </rdf:first>
+                <rdf:rest>
+                  <rdf:List>
+                    <rdf:first>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="unqualified#name"/>
+                        <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#token"/>
+                      </owl:Restriction>
+                    </rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                  </rdf:List>
+                </rdf:rest>
+              </rdf:List>
+            </owl:intersectionOf>
+          </owl:Class>
+        </owl:allValuesFrom>
+        <owl:onProperty rdf:resource="unqualified#foo"/>
+      </owl:Restriction>
+    </owl:intersectionOf>
+  </owl:Class>
+  <owl:DatatypeProperty rdf:about="foo">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+</rdf:RDF>

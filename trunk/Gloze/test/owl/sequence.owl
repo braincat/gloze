@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:ns2="http://example.org/unqualified#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:ns1="http://example.org/"
+    xmlns:xs_="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="http://example.org/sequence.owl">
+  <owl:Ontology rdf:about=""/>
+  <owl:ObjectProperty rdf:about="choice"/>
+  <owl:ObjectProperty rdf:about="any"/>
+  <owl:ObjectProperty rdf:about="empty"/>
+  <owl:ObjectProperty rdf:about="local"/>
+  <owl:ObjectProperty rdf:about="sequence"/>
+  <owl:ObjectProperty rdf:about="tns"/>
+  <owl:ObjectProperty rdf:about="element"/>
+  <owl:ObjectProperty rdf:about="elementMax"/>
+  <owl:ObjectProperty rdf:about="uri"/>
+  <owl:ObjectProperty rdf:about="unambiguous"/>
+  <owl:ObjectProperty rdf:about="other"/>
+  <owl:ObjectProperty rdf:about="group"/>
+  <owl:DatatypeProperty rdf:about="bar">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="foobar">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="foo">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:DatatypeProperty>
+  <rdf:Description>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty rdf:resource="foo"/>
+      </owl:Restriction>
+    </rdf:first>
+  </rdf:Description>
+  <rdf:Description>
+    <rdf:rest rdf:parseType="Collection">
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >2</owl:maxCardinality>
+        <owl:onProperty rdf:resource="foo"/>
+      </owl:Restriction>
+    </rdf:rest>
+    <rdf:first>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty rdf:resource="bar"/>
+      </owl:Restriction>
+    </rdf:first>
+  </rdf:Description>
+  <rdf:Description>
+    <rdf:rest rdf:parseType="Collection">
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:minCardinality>
+        <owl:onProperty rdf:resource="bar"/>
+      </owl:Restriction>
+    </rdf:rest>
+    <rdf:first>
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:minCardinality>
+        <owl:onProperty rdf:resource="foo"/>
+      </owl:Restriction>
+    </rdf:first>
+  </rdf:Description>
+  <rdf:Description>
+    <rdf:rest rdf:parseType="Collection">
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:minCardinality>
+        <owl:onProperty rdf:resource="bar"/>
+      </owl:Restriction>
+    </rdf:rest>
+    <rdf:first>
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:minCardinality>
+        <owl:onProperty rdf:resource="foo"/>
+      </owl:Restriction>
+    </rdf:first>
+  </rdf:Description>
+  <rdf:Description>
+    <rdf:rest rdf:parseType="Collection">
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty rdf:resource="foo"/>
+      </owl:Restriction>
+    </rdf:rest>
+    <rdf:first>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty rdf:resource="bar"/>
+      </owl:Restriction>
+    </rdf:first>
+  </rdf:Description>
+</rdf:RDF>
