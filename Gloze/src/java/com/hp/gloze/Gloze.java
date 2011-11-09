@@ -117,7 +117,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
  Where the lexical ordering of the children is significant, this is captured in an RDF sequence of 
  reified statements. This is simply overlaid over the existing tree structure, so you can take it or leave it. Queries to the RDF that aren't
  interested in ordering can simply ignore it. As for OWL modelling, sequencing is regarded as a data-structuring issue rather than one of
- ontologogical significance.
+ ontological significance.
  
  Element \em groups and \em attribute \em groups are treated as syntactic sugar rather than fully fledges classes, so are
  flattened out of the OWL mapping. As indeed are \em sequence, \em choice and \em all compositors which are only used to calculate the
