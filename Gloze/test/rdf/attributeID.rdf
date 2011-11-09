@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:ns2="http://example.org/def#"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:ns1="http://example.org/"
+    xmlns:xs_="http://www.w3.org/2001/XMLSchema#">
+  <rdf:Description rdf:about="">
+    <ns1:identity>
+      <rdf:Seq rdf:nodeID="A0">
+        <rdf:li>
+          <rdf:Statement>
+            <rdf:subject rdf:nodeID="A0"/>
+            <rdf:predicate rdf:resource="foobar"/>
+            <rdf:object rdf:resource="#foobar"/>
+          </rdf:Statement>
+        </rdf:li>
+        <rdf:li>
+          <rdf:Statement>
+            <rdf:subject rdf:nodeID="A0"/>
+            <rdf:predicate rdf:resource="bar"/>
+            <rdf:object>
+              <rdf:Description rdf:nodeID="A1">
+                <ns2:idref rdf:resource="#foobar"/>
+              </rdf:Description>
+            </rdf:object>
+          </rdf:Statement>
+        </rdf:li>
+        <rdf:li>
+          <rdf:Statement>
+            <rdf:subject rdf:nodeID="A0"/>
+            <rdf:predicate rdf:resource="bar"/>
+            <rdf:object>
+              <rdf:Description rdf:nodeID="A2">
+                <ns2:idrefs rdf:parseType="Collection">
+                  <rdf:Description rdf:ID="foobar"/>
+                  <rdf:Description rdf:about="#foobar"/>
+                </ns2:idrefs>
+              </rdf:Description>
+            </rdf:object>
+          </rdf:Statement>
+        </rdf:li>
+        <ns1:bar rdf:nodeID="A2"/>
+        <ns1:bar rdf:nodeID="A1"/>
+        <ns1:foobar rdf:resource="#foobar"/>
+      </rdf:Seq>
+    </ns1:identity>
+  </rdf:Description>
+</rdf:RDF>
