@@ -38,7 +38,7 @@ import org.junit.Test;
 
 public class TestAtomic {
 	
-	public static String ATOMIC = "test/xmlschema2004-01-14/Tests/Datatypes/atomic";
+	public static String ATOMIC = "test/xsts/XML/xml-schema-test-suite/2004-01-14/XMLSchemaTests/Tests/Datatypes/atomic";
 	static Set<String> exclusions ;
 	
 	@BeforeClass public static void setUp() {

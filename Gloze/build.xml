@@ -8,7 +8,6 @@
 	
   <property name="jena.lib"        value="/Jena-2.6.4/lib"/>
 
-
   <!-- Release version labels -->
   <property name="version-major"   value="1"/>
   <property name="version-minor"   value="01"/>
@@ -38,19 +37,21 @@
   <property name="doc.dir"         value="doc"/>
   <property name="samples.dir"     value="samples"/>
   <property name="test.dir"        value="test"/>
+  <property name="tmp" location="tmp" />
+  <property name="jena.url" value="http://sourceforge.net/projects/jena/files/Jena/Jena-2.6.4/jena-2.6.4.zip" />
 
 	<!-- Classpaths -->
 	
 	<path id="classpath">
 		<fileset dir="${lib.dir}" includes="*.jar" excludes="${jarfile}"/>
-		<fileset dir="${jena.lib}">
+		<!--fileset dir="${jena.lib}">
 			<include name="*.jar" />
-		</fileset>
+		</fileset-->
 	</path>
 
 	<path id="classpath.runtime">
 		<fileset dir="${lib.dir}" includes="*.jar" />
-		<fileset dir="${jena.lib}" includes="*.jar" />
+		<!--fileset dir="${jena.lib}" includes="*.jar" /-->
 	</path>
 
   <!-- keyword substitutions -->
@@ -72,10 +73,26 @@
   <!-- Source code preparation targets -->
   <!-- =============================== -->
 
-  <target name="clean-classes"
+	
+	<target name="init">
+		<available file="${lib.dir}" property="lib.present" />
+	</target>
+	
+	<target name="dependencies" depends="init" unless="lib.present">
+		<mkdir dir="${tmp}" />
+		<mkdir dir="${lib.dir}" />
+		<get src="${jena.url}" dest="${tmp}/jena.zip" skipexisting="true" />
+		<unzip src="${tmp}/jena.zip" dest="${lib.dir}">
+			<patternset includes="**/lib/*.jar" />
+			<mapper type="flatten" />
+		</unzip>
+	</target>
+	
+  <target name="clean"
     description="Remove all contents from ${classes.dir} to ensure a clean build">
     <delete dir="${classes.dir}"/>
     <mkdir dir="${classes.dir}"/>
+    <delete dir="${lib.dir}"/>
   </target>
 
   <target name="copy-src-tree"
@@ -99,7 +116,7 @@
   <!-- Primary Java build targets -->
   <!-- ========================== -->
 
-  <target name="compile" depends="clean-classes,copy-src-tree,javac-flags"
+  <target name="compile" depends="clean,dependencies,copy-src-tree,javac-flags"
     description="Compile the copied source tree into class files under ${classes.dir}">
     <javac
        srcdir="${bldsrc.dir}"
@@ -132,7 +149,7 @@
   </target>
 
   <target name="build" depends="compile, jar"
-    description="compile and jar code for running, testing">
+    description="compile and jar code for running">
   </target>
 
   <target name="javac-flags"
@@ -196,158 +213,6 @@
     </zip>
   </target>
 
-	<!-- Unit testing -->
-	<!-- ============ -->
-
-	  <target name="clean-test-area"
-	    description="Remove redundant test output">
-	    <delete dir="${test.dir}/rdf"/>
-	    <delete dir="${test.dir}/owl"/>
-	  </target>
-
-	<target name="test-lift" >
-		<junit fork="yes" printsummary="on">
-			<classpath>
-				<fileset dir="${lib.dir}" includes="*.jar" />
-				<fileset dir="${jena.lib}" includes="*.jar" />
-			</classpath>
-			<test name="com.hp.gloze.test.TestLift"/>
-		</junit>
-	</target>
-
-	<target name="test-owl" >
-		<junit fork="yes" printsummary="on">
-			<classpath>
-				<fileset dir="${lib.dir}" includes="*.jar" />
-				<fileset dir="${jena.lib}" includes="*.jar" />
-			</classpath>
-			<test name="com.hp.gloze.test.TestOWL"/>
-		</junit>
-	</target>
-
-	<target name="test-samples" >
-		<junit fork="yes" printsummary="on">
-			<classpath>
-				<fileset dir="${lib.dir}" includes="*.jar" />
-				<fileset dir="${jena.lib}" includes="*.jar" />
-			</classpath>
-			<test name="com.hp.gloze.test.TestSamples"/>
-		</junit>
-	</target>
-	
-	<target name="test" depends="test-lift, test-owl, test-samples" />
-
-	<target name="test-atomic" >
-		<junit fork="yes" printsummary="on">
-			<classpath>
-				<fileset dir="${lib.dir}" includes="*.jar" />
-				<fileset dir="${jena.lib}" includes="*.jar" />
-			</classpath>
-			<test name="com.hp.gloze.test.xsts2004.TestAtomic"/>
-		</junit>
-	</target>
-
-	<target name="test-list" >
-		<junit fork="yes" printsummary="on">
-			<classpath>
-				<fileset dir="${lib.dir}" includes="*.jar" />
-				<fileset dir="${jena.lib}" includes="*.jar" />
-			</classpath>
-			<test name="com.hp.gloze.test.xsts2004.TestList"/>
-		</junit>
-	</target>
-
-	<target name="test-union" >
-		<junit fork="yes" printsummary="on">
-        	<classpath>
-				<fileset dir="${lib.dir}" includes="*.jar" />
-				<fileset dir="${jena.lib}" includes="*.jar" />
-			</classpath>
-			<test name="com.hp.gloze.test.xsts2004.TestUnion"/>
-		</junit>
-	</target>
-
-	<target name="test-xsts" depends="test-atomic, test-list, test-union" />
-
-	<!-- Documentation -->
-	<!-- ============= -->
-	
-	<target name="examples" description="run examples for documentation">
-		<!-- lift the main examples to rdf -->
-		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
-			<classpath refid="classpath.runtime" />
-			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
-			<jvmarg value="-Dgloze.base=http://example.org/" />
-			<jvmarg value="-Dgloze.base=http://example.org/" />
-			<jvmarg value="-Dgloze.space=default" />
-			<arg value="${doc.dir}/examples" />
-		</java>
-		<!-- lift the main examples to N3 -->
-		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
-			<classpath refid="classpath.runtime" />
-			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
-			<jvmarg value="-Dgloze.base=http://example.org/" />
-			<jvmarg value="-Dgloze.target=${doc.dir}/examples" />
-			<jvmarg value="-Dgloze.space=default" />
-			<jvmarg value="-Dgloze.lang=N3" />
-			<arg value="${doc.dir}/examples" />
-		</java>
-		<!-- examples with attribute prefix set -->
-		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
-			<classpath refid="classpath.runtime" />
-			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
-			<jvmarg value="-Dgloze.base=http://example.org/" />
-			<jvmarg value="-Dgloze.target=${doc.dir}/examples/attribute" />
-			<jvmarg value="-Dgloze.lang=N3" />
-			<jvmarg value="-Dgloze.attribute=@" />
-			<jvmarg value="-Dgloze.space=default" />
-			<arg value="${doc.dir}/examples/attribute" />
-		</java>
-		<!-- examples with attribute prefix set -->
-		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
-			<classpath refid="classpath.runtime" />
-			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
-			<jvmarg value="-Dgloze.base=http://example.org/" />
-			<jvmarg value="-Dgloze.target=${doc.dir}/examples/attribute" />
-			<jvmarg value="-Dgloze.lang=N3" />
-			<jvmarg value="-Dgloze.attribute=@" />
-			<jvmarg value="-Dgloze.space=default" />
-			<arg value="${doc.dir}/examples/attribute" />
-		</java>
-		<!-- examples with element prefix set -->
-		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
-			<classpath refid="classpath.runtime" />
-			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
-			<jvmarg value="-Dgloze.base=http://example.org/" />
-			<jvmarg value="-Dgloze.target=${doc.dir}/examples/element" />
-			<jvmarg value="-Dgloze.lang=N3" />
-			<jvmarg value="-Dgloze.element=~" />
-			<jvmarg value="-Dgloze.space=default" />
-			<arg value="${doc.dir}/examples/element" />
-		</java>
-		<!-- examples with necessary & sufficient class defs -->
-		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
-			<classpath refid="classpath.runtime" />
-			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
-			<jvmarg value="-Dgloze.base=http://example.org/" />
-			<jvmarg value="-Dgloze.target=${doc.dir}/examples/intersectionOf" />
-			<jvmarg value="-Dgloze.lang=N3" />
-			<jvmarg value="-Dgloze.class=intersectionOf" />
-			<jvmarg value="-Dgloze.space=default" />
-			<arg value="${doc.dir}/examples/intersectionOf" />
-		</java>
-		<!-- examples with ordered content -->
-		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
-			<classpath refid="classpath.runtime" />
-			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
-			<jvmarg value="-Dgloze.base=http://example.org/" />
-			<jvmarg value="-Dgloze.target=${doc.dir}/examples/seq" />
-			<jvmarg value="-Dgloze.lang=N3" />
-			<jvmarg value="-Dgloze.order=seq" />
-			<jvmarg value="-Dgloze.space=default" />
-			<arg value="${doc.dir}/examples/seq" />
-		</java>
-	</target>
 	
 	<!-- Samples -->
 	<!-- ======= -->

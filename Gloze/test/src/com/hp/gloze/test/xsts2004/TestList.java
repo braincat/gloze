@@ -31,7 +31,6 @@
 
 package com.hp.gloze.test.xsts2004;
 
-import java.io.File;
 import java.util.Set;
 
 import org.junit.BeforeClass;
@@ -39,7 +38,7 @@ import org.junit.Test;
 
 public class TestList extends XSTSUtility {
 	
-	public static String LIST = "test/xmlschema2004-01-14/Tests/Datatypes/list";
+	public static String LIST = "test/xsts/XML/xml-schema-test-suite/2004-01-14/XMLSchemaTests/Tests/Datatypes/list";
 	static Set<String> exclusions ;
 
 	@BeforeClass public static void setUp() {
