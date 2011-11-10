@@ -1,13 +1,10 @@
 <project name="Gloze" default="main" basedir=".">
 
   <!-- Configuration properties -->
-  <!-- ======================== -->
 
   <property name="Name"            value="Gloze"/>
   <property name="name"            value="gloze"/>
 	
-  <property name="jena.lib"        value="/Jena-2.6.4/lib"/>
-
   <!-- Release version labels -->
   <property name="version-major"   value="1"/>
   <property name="version-minor"   value="01"/>
@@ -27,6 +24,7 @@
   <property name="src.dir"         value="src/java"/>
   <property name="src.info.dir"    value="src/beanInfo"/>
   <property name="src.test.dir"    value="test/src"/>
+  <property name="build.dir" value="build"/>
   <property name="bldsrc.dir"      value="build/src"/>
   <property name="classes.dir"     value="build/classes"/>
   <property name="dist.root"       value="build/dist"/>
@@ -44,14 +42,10 @@
 	
 	<path id="classpath">
 		<fileset dir="${lib.dir}" includes="*.jar" excludes="${jarfile}"/>
-		<!--fileset dir="${jena.lib}">
-			<include name="*.jar" />
-		</fileset-->
 	</path>
 
 	<path id="classpath.runtime">
 		<fileset dir="${lib.dir}" includes="*.jar" />
-		<!--fileset dir="${jena.lib}" includes="*.jar" /-->
 	</path>
 
   <!-- keyword substitutions -->
@@ -65,14 +59,11 @@
   </filterset>
 
   <!-- Primary externally visible targets -->
-  <!-- ================================== -->
 
   <target name="main" depends="compile,jar,package"
     description="Copy and compile source, jar classes, and package up"/>
 
   <!-- Source code preparation targets -->
-  <!-- =============================== -->
-
 	
 	<target name="init">
 		<available file="${lib.dir}" property="lib.present" />
@@ -93,11 +84,13 @@
     <delete dir="${classes.dir}"/>
     <mkdir dir="${classes.dir}"/>
     <delete dir="${lib.dir}"/>
+    <delete dir="${build.dir}"/>
   </target>
 
-  <target name="copy-src-tree"
+  <target name="copy-source"
     description="Create a copy of the source tree in the build directory, and apply source code filters">
-    <delete dir="${bldsrc.dir}"/>
+    <mkdir dir="${build.dir}"/>
+  	<delete dir="${bldsrc.dir}"/>
     <mkdir  dir="${bldsrc.dir}"/>
     <tstamp>
       <format property="BUILD_TIME" pattern="d-MMMM-yyyy HH:mm"/>
@@ -114,9 +107,8 @@
   </target>
 
   <!-- Primary Java build targets -->
-  <!-- ========================== -->
 
-  <target name="compile" depends="clean,dependencies,copy-src-tree,javac-flags"
+  <target name="compile" depends="clean,dependencies,copy-source,javac-flags"
     description="Compile the copied source tree into class files under ${classes.dir}">
     <javac
        srcdir="${bldsrc.dir}"
@@ -143,7 +135,7 @@
 
   <target name="jar" depends="compile"
     description="Create jar file from the contents of the classes dir">
-    <jar jarfile="${lib.dir}/${jarfile}" index="yes">
+    <jar jarfile="${build.dir}/${jarfile}" index="yes">
       <fileset dir="${classes.dir}" />
     </jar>
   </target>
@@ -163,7 +155,6 @@
   </target>
 
   <!-- Creating a distribution -->
-  <!-- ======================= -->
 
   <target name="package" depends="copy-dist,zip-dist"
       description="Aggregate task to perform the steps of creating a distribution"/>
@@ -215,7 +206,6 @@
 
 	
 	<!-- Samples -->
-	<!-- ======= -->
 
 	<target name="samples-xml2rdf" description="samples from the XML Schema Primer">
 		<!-- any: htmlExample in report.xsd may contain any content and anyAttribute --> 
