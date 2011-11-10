@@ -14,28 +14,8 @@ r_:purchaseReport
               [ a       owl:Class ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:cardinality "1"^^xsd:int ;
-                          owl:onProperty r_:parts
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
                           owl:maxCardinality "1"^^xsd:int ;
                           owl:onProperty ns1:period
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
-                          owl:cardinality "1"^^xsd:int ;
-                          owl:onProperty r_:regions
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
-                          owl:allValuesFrom xsd:date ;
-                          owl:onProperty ns1:periodEnding
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
-                          owl:allValuesFrom r_:PartsType ;
-                          owl:onProperty r_:parts
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
@@ -44,8 +24,28 @@ r_:purchaseReport
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
+                          owl:allValuesFrom r_:PartsType ;
+                          owl:onProperty r_:parts
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
                           owl:maxCardinality "1"^^xsd:int ;
                           owl:onProperty ns1:periodEnding
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
+                          owl:allValuesFrom xsd:date ;
+                          owl:onProperty ns1:periodEnding
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
+                          owl:cardinality "1"^^xsd:int ;
+                          owl:onProperty r_:parts
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
+                          owl:cardinality "1"^^xsd:int ;
+                          owl:onProperty r_:regions
                         ]
               ] .
 
@@ -74,11 +74,6 @@ r_:RegionsType
                         [ a       owl:Class ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
-                                    owl:maxCardinality "1"^^xsd:int ;
-                                    owl:onProperty ns1:code
-                                  ] ;
-                          rdfs:subClassOf
-                                  [ a       owl:Restriction ;
                                     owl:allValuesFrom xsd:positiveInteger ;
                                     owl:onProperty ns1:code
                                   ] ;
@@ -89,25 +84,30 @@ r_:RegionsType
                                               rdfs:subClassOf
                                                       [ a       owl:Restriction ;
                                                         owl:maxCardinality "1"^^xsd:int ;
+                                                        owl:onProperty ns1:quantity
+                                                      ] ;
+                                              rdfs:subClassOf
+                                                      [ a       owl:Restriction ;
+                                                        owl:maxCardinality "1"^^xsd:int ;
+                                                        owl:onProperty ns1:number
+                                                      ] ;
+                                              rdfs:subClassOf
+                                                      [ a       owl:Restriction ;
+                                                        owl:allValuesFrom xipo_:SKU ;
                                                         owl:onProperty ns1:number
                                                       ] ;
                                               rdfs:subClassOf
                                                       [ a       owl:Restriction ;
                                                         owl:allValuesFrom xsd:positiveInteger ;
                                                         owl:onProperty ns1:quantity
-                                                      ] ;
-                                              rdfs:subClassOf
-                                                      [ a       owl:Restriction ;
-                                                        owl:maxCardinality "1"^^xsd:int ;
-                                                        owl:onProperty ns1:quantity
-                                                      ] ;
-                                              rdfs:subClassOf
-                                                      [ a       owl:Restriction ;
-                                                        owl:allValuesFrom xipo_:SKU ;
-                                                        owl:onProperty ns1:number
                                                       ]
                                             ] ;
                                     owl:onProperty r_:part
+                                  ] ;
+                          rdfs:subClassOf
+                                  [ a       owl:Restriction ;
+                                    owl:maxCardinality "1"^^xsd:int ;
+                                    owl:onProperty ns1:code
                                   ] ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
@@ -122,16 +122,16 @@ r_:PartsType
       a       owl:Class ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
+                owl:minCardinality "1"^^xsd:int ;
+                owl:onProperty r_:part
+              ] ;
+      rdfs:subClassOf
+              [ a       owl:Restriction ;
                 owl:allValuesFrom
                         [ a       owl:Class ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
-                                    owl:maxCardinality "1"^^xsd:int ;
-                                    owl:onProperty ns1:number
-                                  ] ;
-                          rdfs:subClassOf
-                                  [ a       owl:Restriction ;
-                                    owl:cardinality "1"^^xsd:int ;
+                                    owl:allValuesFrom xsd:string ;
                                     owl:onProperty rdf:value
                                   ] ;
                           rdfs:subClassOf
@@ -141,15 +141,15 @@ r_:PartsType
                                   ] ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
-                                    owl:allValuesFrom xsd:string ;
+                                    owl:maxCardinality "1"^^xsd:int ;
+                                    owl:onProperty ns1:number
+                                  ] ;
+                          rdfs:subClassOf
+                                  [ a       owl:Restriction ;
+                                    owl:cardinality "1"^^xsd:int ;
                                     owl:onProperty rdf:value
                                   ]
                         ] ;
-                owl:onProperty r_:part
-              ] ;
-      rdfs:subClassOf
-              [ a       owl:Restriction ;
-                owl:minCardinality "1"^^xsd:int ;
                 owl:onProperty r_:part
               ] .
 
@@ -165,7 +165,7 @@ r_:zip
 <http://example.org/report>
       a       owl:Ontology ;
       rdfs:comment "Report schema for Example.com Copyright 2000 Example.com. All rights reserved."@en ;
-      owl:imports <http://example.org/address.owl> .
+      owl:imports <http://example.org/ipo.owl> .
 
 ns1:periodEnding
       a       rdf:Property , owl:DatatypeProperty .

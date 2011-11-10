@@ -36,8 +36,8 @@ ipo_:PurchaseOrderType
       a       owl:Class ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
-                owl:allValuesFrom ipo_:Address ;
-                owl:onProperty ns1:billTo
+                owl:allValuesFrom ipo_:Items ;
+                owl:onProperty ns1:items
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
@@ -46,8 +46,8 @@ ipo_:PurchaseOrderType
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
-                owl:allValuesFrom ipo_:Items ;
-                owl:onProperty ns1:items
+                owl:cardinality "1"^^xsd:int ;
+                owl:onProperty ns1:shipTo
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
@@ -57,12 +57,7 @@ ipo_:PurchaseOrderType
       rdfs:subClassOf
               [ a       owl:Restriction ;
                 owl:cardinality "1"^^xsd:int ;
-                owl:onProperty ns1:shipTo
-              ] ;
-      rdfs:subClassOf
-              [ a       owl:Restriction ;
-                owl:allValuesFrom ipo_:Address ;
-                owl:onProperty ns1:shipTo
+                owl:onProperty ns1:items
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
@@ -71,13 +66,18 @@ ipo_:PurchaseOrderType
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
+                owl:allValuesFrom ipo_:Address ;
+                owl:onProperty ns1:shipTo
+              ] ;
+      rdfs:subClassOf
+              [ a       owl:Restriction ;
                 owl:cardinality "1"^^xsd:int ;
                 owl:onProperty ns1:billTo
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
-                owl:cardinality "1"^^xsd:int ;
-                owl:onProperty ns1:items
+                owl:allValuesFrom ipo_:Address ;
+                owl:onProperty ns1:billTo
               ] .
 
 ns1:shipTo
@@ -98,6 +98,9 @@ ns1:partNum
 ns1:shipDate
       a       rdf:Property , owl:DatatypeProperty .
 
+ns1:quantity
+      a       rdf:Property , owl:DatatypeProperty .
+
 ipo_:Items
       a       owl:Class ;
       rdfs:subClassOf
@@ -106,28 +109,13 @@ ipo_:Items
                         [ a       owl:Class ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
-                                    owl:allValuesFrom xsd:string ;
+                                    owl:cardinality "1"^^xsd:int ;
                                     owl:onProperty ns1:productName
-                                  ] ;
-                          rdfs:subClassOf
-                                  [ a       owl:Restriction ;
-                                    owl:allValuesFrom xsd:positiveInteger ;
-                                    owl:onProperty ns1:quantity
                                   ] ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
                                     owl:maxCardinality "1"^^xsd:int ;
                                     owl:onProperty ipo_:comment
-                                  ] ;
-                          rdfs:subClassOf
-                                  [ a       owl:Restriction ;
-                                    owl:allValuesFrom xsd:decimal ;
-                                    owl:onProperty ns1:USPrice
-                                  ] ;
-                          rdfs:subClassOf
-                                  [ a       owl:Restriction ;
-                                    owl:allValuesFrom ipo_:SKU ;
-                                    owl:onProperty ns1:partNum
                                   ] ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
@@ -141,8 +129,8 @@ ipo_:Items
                                   ] ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
-                                    owl:cardinality "1"^^xsd:int ;
-                                    owl:onProperty ns1:quantity
+                                    owl:allValuesFrom xsd:string ;
+                                    owl:onProperty ns1:productName
                                   ] ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
@@ -151,17 +139,29 @@ ipo_:Items
                                   ] ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
+                                    owl:allValuesFrom xsd:positiveInteger ;
+                                    owl:onProperty ns1:quantity
+                                  ] ;
+                          rdfs:subClassOf
+                                  [ a       owl:Restriction ;
                                     owl:cardinality "1"^^xsd:int ;
                                     owl:onProperty ns1:USPrice
                                   ] ;
                           rdfs:subClassOf
                                   [ a       owl:Restriction ;
+                                    owl:allValuesFrom xsd:decimal ;
+                                    owl:onProperty ns1:USPrice
+                                  ] ;
+                          rdfs:subClassOf
+                                  [ a       owl:Restriction ;
+                                    owl:allValuesFrom ipo_:SKU ;
+                                    owl:onProperty ns1:partNum
+                                  ] ;
+                          rdfs:subClassOf
+                                  [ a       owl:Restriction ;
                                     owl:cardinality "1"^^xsd:int ;
-                                    owl:onProperty ns1:productName
+                                    owl:onProperty ns1:quantity
                                   ]
                         ] ;
                 owl:onProperty ns1:item
               ] .
-
-ns1:quantity
-      a       rdf:Property , owl:DatatypeProperty .
