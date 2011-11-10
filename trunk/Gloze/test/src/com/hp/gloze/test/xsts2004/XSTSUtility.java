@@ -68,7 +68,6 @@ public abstract class XSTSUtility {
 
 	public static void runTest(String source, Set<String> exclusions) {
 		File tests = new File(source);		
-
 		File[] list = tests.listFiles();
 		for (int i = 0; i < list.length; i++) {
 			String name = list[i].getName();

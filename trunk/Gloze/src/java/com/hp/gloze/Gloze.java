@@ -35,9 +35,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.URI;
@@ -175,7 +177,7 @@ public class Gloze {
 	public Map<URL,schema> schemaMap = new HashMap<URL,schema>();
 	
 	/**
-	 * Create an instacen of Gloze.
+	 * Create an instance of Gloze.
 	 */
 	
 	public Gloze() {
@@ -443,7 +445,10 @@ public class Gloze {
 		if (target != null) {
 			if ("true".equals(verbose)) logger.info("writing "+target.getName());
 			//model.write(new FileWriter(target), lang);
-			writer.write(model,new FileWriter(target), base.toString());
+			//writer.write(model,new FileWriter(target), base.toString());
+			OutputStreamWriter out;
+			out = new OutputStreamWriter(new FileOutputStream(target),"UTF-8");
+			writer.write(model, out, base.toString());
 		}
 		else if (!silent) 
 			//model.write(System.out, lang);
