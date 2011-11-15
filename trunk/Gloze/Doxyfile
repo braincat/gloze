@@ -23,7 +23,7 @@ PROJECT_NAME = Gloze
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER = 
+PROJECT_NUMBER = 1.01-beta2
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
@@ -459,7 +459,7 @@ WARN_LOGFILE =
 # directories like "/usr/src/myproject". Separate the files or directories 
 # with spaces.
 
-INPUT = src\java\com\hp\gloze\Gloze.java src\java\com\hp\gloze\www_w3_org_2001_XMLSchema
+INPUT = src/java/com/hp/gloze/Gloze.java src/java/com/hp/gloze/www_w3_org_2001_XMLSchema
 
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -500,7 +500,7 @@ EXCLUDE_PATTERNS =
 # directories that contain example code fragments that are included (see 
 # the \include command).
 
-EXAMPLE_PATH = doc\examples doc\examples\seq doc\examples\intersectionOf doc\examples\attribute doc\examples\element
+EXAMPLE_PATH = doc/examples doc/examples/seq doc/examples/intersectionOf doc/examples/attribute doc/examples/element
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -744,7 +744,7 @@ TREEVIEW_WIDTH = 250
 # If the GENERATE_LATEX tag is set to YES (the default) Doxygen will 
 # generate Latex output.
 
-GENERATE_LATEX = YES
+GENERATE_LATEX = NO
 
 # The LATEX_OUTPUT tag is used to specify where the LaTeX docs will be put. 
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
