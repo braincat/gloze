@@ -482,7 +482,7 @@ public class schema extends XMLBean {
 	 The recommended solution used by Gloze is to
 	 distill a single period such as "P7Y2M26DT14H18M10S" (years, months, days, hours, minutes, seconds) 
 	 into separate xs:yearMonthDuration "P7Y2M" (years, months) and xs:dayTimeDuration "P26DT14H18M10S" (days, hours, minutes, seconds) datatypes.
-	 The reverse process, is equivalent to adding the these values, both of which are subclasses of duration.
+	 The reverse process, is equivalent to adding these values, both of which are subclasses of duration.
 	 When adding two durations, each component is added independently, ignoring - in particular - any carry from days to months.
 	 
 	 \subpage elementDuration "duration example"

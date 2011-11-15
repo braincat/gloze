@@ -112,7 +112,7 @@ The mother of all simple types (xs:anySimpleType)</h2>
 <dl class="see"><dt><b>See also:</b></dt><dd><a href="http://www.w3.org/2001/05/xmlschema-rec-comments#pfiS4SanySimpleType">http://www.w3.org/2001/05/xmlschema-rec-comments#pfiS4SanySimpleType</a> <a href="http://lists.w3.org/Archives/Member/w3c-xml-schema-ig/2002Jan/0065.html">http://lists.w3.org/Archives/Member/w3c-xml-schema-ig/2002Jan/0065.html</a></dd></dl>
 <h2><a class="anchor" id="duration"></a>
 Duration (xs:duration)</h2>
-<p>The problem with xs:duration is that there's no well-defined total ordering over it's value space (durations are partially ordered). The problem stems from there being an indeterminate number of days in a month. The recommended solution used by <a class="el" href="classcom_1_1hp_1_1gloze_1_1_gloze.html">Gloze</a> is to distill a single period such as "P7Y2M26DT14H18M10S" (years, months, days, hours, minutes, seconds) into separate xs:yearMonthDuration "P7Y2M" (years, months) and xs:dayTimeDuration "P26DT14H18M10S" (days, hours, minutes, seconds) datatypes. The reverse process, is equivalent to adding the these values, both of which are subclasses of duration. When adding two durations, each component is added independently, ignoring - in particular - any carry from days to months.</p>
+<p>The problem with xs:duration is that there's no well-defined total ordering over it's value space (durations are partially ordered). The problem stems from there being an indeterminate number of days in a month. The recommended solution used by <a class="el" href="classcom_1_1hp_1_1gloze_1_1_gloze.html">Gloze</a> is to distill a single period such as "P7Y2M26DT14H18M10S" (years, months, days, hours, minutes, seconds) into separate xs:yearMonthDuration "P7Y2M" (years, months) and xs:dayTimeDuration "P26DT14H18M10S" (days, hours, minutes, seconds) datatypes. The reverse process, is equivalent to adding these values, both of which are subclasses of duration. When adding two durations, each component is added independently, ignoring - in particular - any carry from days to months.</p>
 <p><a class="el" href="element_duration.html">duration example</a></p>
 <h2><a class="anchor" id="entity"></a>
 Entities (xs:ENTITY)</h2>
@@ -144,7 +144,7 @@ List types (xs:IDREFS, xs:ENTITIES, xs:NMTOKENS)</h2>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 15 2011 21:25:59 for Gloze by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 15 2011 22:13:50 for Gloze by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>
