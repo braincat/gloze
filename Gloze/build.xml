@@ -40,11 +40,12 @@
 
 	<!-- Classpaths -->
 	
-	<path id="classpath">
+	<path id="classpath.compilation">
 		<fileset dir="${lib.dir}" includes="*.jar" excludes="${jarfile}"/>
 	</path>
 
 	<path id="classpath.runtime">
+		<pathelement location="${classes.dir}"/>
 		<fileset dir="${lib.dir}" includes="*.jar" />
 	</path>
 
@@ -60,7 +61,7 @@
 
   <!-- Primary externally visible targets -->
 
-  <target name="main" depends="compile,jar,package"
+  <target name="main" depends="compile,jar,package, samples, examples"
     description="Copy and compile source, jar classes, and package up"/>
 
   <!-- Source code preparation targets -->
@@ -82,15 +83,16 @@
   <target name="clean"
     description="Remove all contents from ${classes.dir} to ensure a clean build">
     <delete dir="${classes.dir}"/>
-    <mkdir dir="${classes.dir}"/>
     <delete dir="${lib.dir}"/>
     <delete dir="${build.dir}"/>
+	<delete>
+	    <fileset dir="${doc.dir}/html" includes="**/*"/>
+	</delete>
   </target>
 
   <target name="copy-source"
     description="Create a copy of the source tree in the build directory, and apply source code filters">
     <mkdir dir="${build.dir}"/>
-  	<delete dir="${bldsrc.dir}"/>
     <mkdir  dir="${bldsrc.dir}"/>
     <tstamp>
       <format property="BUILD_TIME" pattern="d-MMMM-yyyy HH:mm"/>
@@ -110,6 +112,7 @@
 
   <target name="compile" depends="clean,dependencies,copy-source,javac-flags"
     description="Compile the copied source tree into class files under ${classes.dir}">
+    <mkdir dir="${classes.dir}"/>
     <javac
        srcdir="${bldsrc.dir}"
        destdir="${classes.dir}"
@@ -119,7 +122,7 @@
        optimize="${java.optimize}"
        source="${java.source}"
        target="${java.target}">
-      <classpath refid="classpath" />
+      <classpath refid="classpath.compilation" />
     </javac>
     <copy todir="${classes.dir}" >
       <fileset dir="${src.dir}" includes="com/hp/gloze/owl.rules"/>
@@ -171,18 +174,21 @@
   <target name="copy-dist" depends="jar,clean-dist,samples"
     description="Copy the various elements of a distribution into one directory tree">
     <copy todir="${dist.dir}/${lib.dir}">
-      <fileset dir="${lib.dir}" includes="**/*.jar"/>
+      	<fileset dir="${lib.dir}" includes="**/*.jar"/>
+        <fileset dir="${build.dir}" includes="**/*.jar"/>
     </copy>
     <copy todir="${dist.src}">
       <fileset dir="${src}" includes="**"/>
     </copy>
     <copy todir="${dist.test}">
       <fileset dir="${test.dir}" includes="**">
-      	<exclude name="**/xmlschema2004-01-14/**" />
+      	<exclude name="**/xsts/**" />
       	<exclude name="xsts.zip" />
       </fileset>
     </copy>
     <copy todir="${dist.dir}" file="build.xml"/>
+    <copy todir="${dist.dir}" file="build-test.xml"/>
+    <copy todir="${dist.dir}" file="build-docs.xml"/>
     <copy todir="${dist.dir}" file="copyright.txt"/>
     <copy todir="${dist.dir}" file="readme.txt"/>
     <copy todir="${dist.dir}" file="Doxyfile"/>
@@ -560,5 +566,84 @@
 	</target>
 	
 	<target name="samples" depends="samples-xml2rdf, samples-xsd2owl" />
+	
+	<!-- Documentation examples -->
+	
+	<target name="examples" description="run examples for documentation">
+		<!-- lift the main examples to rdf -->
+		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
+			<classpath refid="classpath.runtime" />
+			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
+			<jvmarg value="-Dgloze.base=http://example.org/" />
+			<jvmarg value="-Dgloze.base=http://example.org/" />
+			<jvmarg value="-Dgloze.space=default" />
+			<arg value="${doc.dir}/examples" />
+		</java>
+		<!-- lift the main examples to N3 -->
+		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
+			<classpath refid="classpath.runtime" />
+			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
+			<jvmarg value="-Dgloze.base=http://example.org/" />
+			<jvmarg value="-Dgloze.target=${doc.dir}/examples" />
+			<jvmarg value="-Dgloze.space=default" />
+			<jvmarg value="-Dgloze.lang=N3" />
+			<arg value="${doc.dir}/examples" />
+		</java>
+		<!-- examples with attribute prefix set -->
+		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
+			<classpath refid="classpath.runtime" />
+			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
+			<jvmarg value="-Dgloze.base=http://example.org/" />
+			<jvmarg value="-Dgloze.target=${doc.dir}/examples/attribute" />
+			<jvmarg value="-Dgloze.lang=N3" />
+			<jvmarg value="-Dgloze.attribute=@" />
+			<jvmarg value="-Dgloze.space=default" />
+			<arg value="${doc.dir}/examples/attribute" />
+		</java>
+		<!-- examples with attribute prefix set -->
+		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
+			<classpath refid="classpath.runtime" />
+			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
+			<jvmarg value="-Dgloze.base=http://example.org/" />
+			<jvmarg value="-Dgloze.target=${doc.dir}/examples/attribute" />
+			<jvmarg value="-Dgloze.lang=N3" />
+			<jvmarg value="-Dgloze.attribute=@" />
+			<jvmarg value="-Dgloze.space=default" />
+			<arg value="${doc.dir}/examples/attribute" />
+		</java>
+		<!-- examples with element prefix set -->
+		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
+			<classpath refid="classpath.runtime" />
+			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
+			<jvmarg value="-Dgloze.base=http://example.org/" />
+			<jvmarg value="-Dgloze.target=${doc.dir}/examples/element" />
+			<jvmarg value="-Dgloze.lang=N3" />
+			<jvmarg value="-Dgloze.element=~" />
+			<jvmarg value="-Dgloze.space=default" />
+			<arg value="${doc.dir}/examples/element" />
+		</java>
+		<!-- examples with necessary & sufficient class defs -->
+		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
+			<classpath refid="classpath.runtime" />
+			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
+			<jvmarg value="-Dgloze.base=http://example.org/" />
+			<jvmarg value="-Dgloze.target=${doc.dir}/examples/intersectionOf" />
+			<jvmarg value="-Dgloze.lang=N3" />
+			<jvmarg value="-Dgloze.class=intersectionOf" />
+			<jvmarg value="-Dgloze.space=default" />
+			<arg value="${doc.dir}/examples/intersectionOf" />
+		</java>
+		<!-- examples with ordered content -->
+		<java classname="com.hp.gloze.Gloze" fork="true" failonerror="true">
+			<classpath refid="classpath.runtime" />
+			<jvmarg value="-Dgloze.xmlns=http://example.org/def/" />
+			<jvmarg value="-Dgloze.base=http://example.org/" />
+			<jvmarg value="-Dgloze.target=${doc.dir}/examples/seq" />
+			<jvmarg value="-Dgloze.lang=N3" />
+			<jvmarg value="-Dgloze.order=seq" />
+			<jvmarg value="-Dgloze.space=default" />
+			<arg value="${doc.dir}/examples/seq" />
+		</java>
+	</target>
 	
 </project>
