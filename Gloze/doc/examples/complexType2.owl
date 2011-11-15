@@ -19,12 +19,12 @@ ns2:foo
               [ a       owl:Class ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:allValuesFrom xsd:string ;
+                          owl:cardinality "1"^^xsd:int ;
                           owl:onProperty rdf:value
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:cardinality "1"^^xsd:int ;
+                          owl:allValuesFrom xsd:string ;
                           owl:onProperty rdf:value
                         ]
               ] .

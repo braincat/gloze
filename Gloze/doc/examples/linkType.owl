@@ -14,32 +14,17 @@ ns2:SimpleLink
       rdfs:subClassOf
               [ a       owl:Restriction ;
                 owl:maxCardinality "1"^^xsd:int ;
-                owl:onProperty xlink_:show
-              ] ;
-      rdfs:subClassOf
-              [ a       owl:Restriction ;
-                owl:maxCardinality "1"^^xsd:int ;
-                owl:onProperty xlink_:arcrole
-              ] ;
-      rdfs:subClassOf
-              [ a       owl:Restriction ;
-                owl:maxCardinality "1"^^xsd:int ;
                 owl:onProperty xlink_:href
-              ] ;
-      rdfs:subClassOf
-              [ a       owl:Restriction ;
-                owl:maxCardinality "1"^^xsd:int ;
-                owl:onProperty xlink_:type
-              ] ;
-      rdfs:subClassOf
-              [ a       owl:Restriction ;
-                owl:maxCardinality "1"^^xsd:int ;
-                owl:onProperty xlink_:title
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
                 owl:allValuesFrom xsd:string ;
                 owl:onProperty xlink_:type
+              ] ;
+      rdfs:subClassOf
+              [ a       owl:Restriction ;
+                owl:maxCardinality "1"^^xsd:int ;
+                owl:onProperty xlink_:show
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
@@ -50,6 +35,21 @@ ns2:SimpleLink
               [ a       owl:Restriction ;
                 owl:maxCardinality "1"^^xsd:int ;
                 owl:onProperty xlink_:role
+              ] ;
+      rdfs:subClassOf
+              [ a       owl:Restriction ;
+                owl:maxCardinality "1"^^xsd:int ;
+                owl:onProperty xlink_:title
+              ] ;
+      rdfs:subClassOf
+              [ a       owl:Restriction ;
+                owl:maxCardinality "1"^^xsd:int ;
+                owl:onProperty xlink_:arcrole
+              ] ;
+      rdfs:subClassOf
+              [ a       owl:Restriction ;
+                owl:maxCardinality "1"^^xsd:int ;
+                owl:onProperty xlink_:type
               ] .
 
 <http://example.org/linkType.owl>

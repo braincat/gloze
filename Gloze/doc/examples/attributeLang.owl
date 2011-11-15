@@ -20,23 +20,23 @@ ns1:lang
               [ a       owl:Class ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:allValuesFrom xsd:string ;
-                          owl:onProperty rdf:value
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
-                          owl:cardinality "1"^^xsd:int ;
-                          owl:onProperty rdf:value
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
                           owl:maxCardinality "1"^^xsd:int ;
                           owl:onProperty <http://www.w3.org/XML/1998/namespace#base>
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
+                          owl:allValuesFrom xsd:string ;
+                          owl:onProperty rdf:value
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
                           owl:maxCardinality "1"^^xsd:int ;
                           owl:onProperty <http://www.w3.org/XML/1998/namespace#lang>
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
+                          owl:cardinality "1"^^xsd:int ;
+                          owl:onProperty rdf:value
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;

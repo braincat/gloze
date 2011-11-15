@@ -18,11 +18,11 @@ ns1:Any
       a       owl:Class ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
-                owl:maxCardinality "4"^^xsd:int ;
+                owl:minCardinality "1"^^xsd:int ;
                 owl:onProperty ns1:foo
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
-                owl:minCardinality "1"^^xsd:int ;
+                owl:maxCardinality "4"^^xsd:int ;
                 owl:onProperty ns1:foo
               ] .

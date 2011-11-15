@@ -27,6 +27,11 @@ ns1:Foobar
               ] ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
+                owl:minCardinality "1"^^xsd:int ;
+                owl:onProperty ns1:bar
+              ] ;
+      rdfs:subClassOf
+              [ a       owl:Restriction ;
                 owl:maxCardinality "1"^^xsd:int ;
                 owl:onProperty ns2:baz
               ] ;
@@ -34,11 +39,6 @@ ns1:Foobar
               [ a       owl:Restriction ;
                 owl:cardinality "1"^^xsd:int ;
                 owl:onProperty ns1:foo
-              ] ;
-      rdfs:subClassOf
-              [ a       owl:Restriction ;
-                owl:minCardinality "1"^^xsd:int ;
-                owl:onProperty ns1:bar
               ] .
 
 ns2:baz

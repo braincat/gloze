@@ -16,8 +16,8 @@ ns2:foo
               [ a       owl:Class ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:cardinality "1"^^xsd:int ;
-                          owl:onProperty rdf:value
+                          owl:maxCardinality "1"^^xsd:int ;
+                          owl:onProperty ns1:bar
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
@@ -26,8 +26,8 @@ ns2:foo
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:maxCardinality "1"^^xsd:int ;
-                          owl:onProperty ns1:bar
+                          owl:cardinality "1"^^xsd:int ;
+                          owl:onProperty rdf:value
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
