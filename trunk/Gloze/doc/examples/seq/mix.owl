@@ -30,27 +30,22 @@ ns1:letterBody
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
                           owl:cardinality "1"^^xsd:int ;
-                          owl:onProperty ns1:quantity
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
-                          owl:maxCardinality "1"^^xsd:int ;
-                          owl:onProperty ns1:shipDate
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
-                          owl:allValuesFrom xsd:positiveInteger ;
-                          owl:onProperty ns1:quantity
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
-                          owl:cardinality "1"^^xsd:int ;
                           owl:onProperty ns1:productName
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
                           owl:cardinality "1"^^xsd:int ;
                           owl:onProperty ns1:salutation
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
+                          owl:cardinality "1"^^xsd:int ;
+                          owl:onProperty ns1:quantity
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
+                          owl:allValuesFrom xsd:date ;
+                          owl:onProperty ns1:shipDate
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
@@ -76,7 +71,12 @@ ns1:letterBody
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:allValuesFrom xsd:date ;
+                          owl:maxCardinality "1"^^xsd:int ;
                           owl:onProperty ns1:shipDate
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
+                          owl:allValuesFrom xsd:positiveInteger ;
+                          owl:onProperty ns1:quantity
                         ]
               ] .

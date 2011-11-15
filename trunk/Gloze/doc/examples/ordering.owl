@@ -16,8 +16,8 @@ ns1:foobar
               [ a       owl:Class ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:maxCardinality "1"^^xsd:int ;
-                          owl:onProperty ns1:baz
+                          owl:allValuesFrom xsd:string ;
+                          owl:onProperty ns1:foo
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
@@ -26,13 +26,8 @@ ns1:foobar
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:allValuesFrom xsd:string ;
-                          owl:onProperty ns1:baz
-                        ] ;
-                rdfs:subClassOf
-                        [ a       owl:Restriction ;
                           owl:maxCardinality "1"^^xsd:int ;
-                          owl:onProperty ns1:foo
+                          owl:onProperty ns1:baz
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
@@ -41,8 +36,13 @@ ns1:foobar
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:allValuesFrom xsd:string ;
+                          owl:maxCardinality "1"^^xsd:int ;
                           owl:onProperty ns1:foo
+                        ] ;
+                rdfs:subClassOf
+                        [ a       owl:Restriction ;
+                          owl:allValuesFrom xsd:string ;
+                          owl:onProperty ns1:baz
                         ]
               ] .
 

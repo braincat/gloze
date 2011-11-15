@@ -14,15 +14,15 @@ ns1:FooBar
       a       owl:Class ;
       rdfs:subClassOf
               [ a       owl:Restriction ;
-                owl:cardinality "2"^^xsd:int ;
-                owl:onProperty ns1:foobar
-              ] ;
-      rdfs:subClassOf
-              [ a       owl:Restriction ;
                 owl:allValuesFrom
                         [ a       owl:Class ;
                           owl:unionOf (ns1:Foo ns1:Bar)
                         ] ;
+                owl:onProperty ns1:foobar
+              ] ;
+      rdfs:subClassOf
+              [ a       owl:Restriction ;
+                owl:cardinality "2"^^xsd:int ;
                 owl:onProperty ns1:foobar
               ] .
 

@@ -21,12 +21,12 @@ ns1:foobar
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
                           owl:cardinality "1"^^xsd:int ;
-                          owl:onProperty ns1:foo
+                          owl:onProperty ns1:bar
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
                           owl:cardinality "1"^^xsd:int ;
-                          owl:onProperty ns1:bar
+                          owl:onProperty ns1:foo
                         ]
               ] .
 

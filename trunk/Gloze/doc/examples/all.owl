@@ -16,13 +16,13 @@ ns1:foobar
               [ a       owl:Class ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:allValuesFrom xsd:string ;
-                          owl:onProperty ns1:foo
+                          owl:cardinality "1"^^xsd:int ;
+                          owl:onProperty ns1:bar
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:cardinality "1"^^xsd:int ;
-                          owl:onProperty ns1:bar
+                          owl:allValuesFrom xsd:string ;
+                          owl:onProperty ns1:foo
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;

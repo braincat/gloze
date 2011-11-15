@@ -19,12 +19,12 @@ ns1:notation
               [ a       owl:Class ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:maxCardinality "1"^^xsd:int ;
-                          owl:onProperty ns2:mimeType
+                          owl:cardinality "1"^^xsd:int ;
+                          owl:onProperty rdf:value
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:cardinality "1"^^xsd:int ;
+                          owl:allValuesFrom xsd:base64Binary ;
                           owl:onProperty rdf:value
                         ] ;
                 rdfs:subClassOf
@@ -37,8 +37,8 @@ ns1:notation
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:allValuesFrom xsd:base64Binary ;
-                          owl:onProperty rdf:value
+                          owl:maxCardinality "1"^^xsd:int ;
+                          owl:onProperty ns2:mimeType
                         ]
               ] .
 

@@ -17,12 +17,12 @@ ns1:foofoo
               [ a       owl:Class ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:minCardinality "1"^^xsd:int ;
+                          owl:maxCardinality "2"^^xsd:int ;
                           owl:onProperty ns1:foo
                         ] ;
                 rdfs:subClassOf
                         [ a       owl:Restriction ;
-                          owl:maxCardinality "2"^^xsd:int ;
+                          owl:minCardinality "1"^^xsd:int ;
                           owl:onProperty ns1:foo
                         ]
               ] .

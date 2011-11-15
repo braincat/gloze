@@ -39,17 +39,17 @@ ns1:identity
                                   [ a       owl:Class ;
                                     rdfs:subClassOf
                                             [ a       owl:Restriction ;
+                                              owl:allValuesFrom rdf:List ;
+                                              owl:onProperty ns2:idrefs
+                                            ] ;
+                                    rdfs:subClassOf
+                                            [ a       owl:Restriction ;
                                               owl:maxCardinality "1"^^xsd:int ;
                                               owl:onProperty ns2:idref
                                             ] ;
                                     rdfs:subClassOf
                                             [ a       owl:Restriction ;
                                               owl:maxCardinality "1"^^xsd:int ;
-                                              owl:onProperty ns2:idrefs
-                                            ] ;
-                                    rdfs:subClassOf
-                                            [ a       owl:Restriction ;
-                                              owl:allValuesFrom rdf:List ;
                                               owl:onProperty ns2:idrefs
                                             ]
                                   ] ;
